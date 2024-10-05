@@ -1,0 +1,4 @@
+requests
+python-dotenv
+ansible
+ansible-pylibssh

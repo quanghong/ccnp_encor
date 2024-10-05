@@ -1,0 +1,18 @@
+[
+    {
+        "name": "R1",
+        "host": "192.168.116.142",
+        "port": 32769,
+        "username": null,
+        "password": null,
+        "group": "HQ1"
+    },
+    {
+        "name": "SW1",
+        "host": "192.168.116.142",
+        "port": 32781,
+        "username": null,
+        "password": null,
+        "group": "HQ1"
+    }
+]
