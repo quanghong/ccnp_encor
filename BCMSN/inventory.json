@@ -14,5 +14,72 @@
         "username": null,
         "password": null,
         "group": "HQ1"
+    },
+    {
+        "name": "R5",
+        "host": "192.168.116.142",
+        "port": 32773,
+        "username": null,
+        "password": null,
+        "group": "HQ1"
+    },
+
+    {
+        "name": "SW2",
+        "host": "192.168.116.142",
+        "port": 32782,
+        "username": null,
+        "password": null,
+        "group": "HQ2"
+    },
+    {
+        "name": "R2",
+        "host": "192.168.116.142",
+        "port": 32770,
+        "username": null,
+        "password": null,
+        "group": "HQ2"
+    },
+
+    {
+        "name": "SW3",
+        "host": "192.168.116.142",
+        "port": 32771,
+        "username": null,
+        "password": null,
+        "group": "Branch"
+    },
+    {
+        "name": "R3",
+        "host": "192.168.116.142",
+        "port": 32778,
+        "username": null,
+        "password": null,
+        "group": "Branch"
+    },
+
+    {
+        "name": "SW4",
+        "host": "192.168.116.142",
+        "port": 32780,
+        "username": null,
+        "password": null,
+        "group": "Warehouse"
+    },
+    {
+        "name": "R4",
+        "host": "192.168.116.142",
+        "port": 32777,
+        "username": null,
+        "password": null,
+        "group": "Warehouse"
+    },
+    {
+        "name": "R6",
+        "host": "192.168.116.142",
+        "port": 32776,
+        "username": null,
+        "password": null,
+        "group": "Warehouse"
     }
 ]
