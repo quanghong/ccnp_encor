@@ -5,7 +5,8 @@
         "port": 32769,
         "username": null,
         "password": null,
-        "group": "HQ1"
+        "group": "HQ1",
+        "type": "router"
     },
     {
         "name": "SW1",
@@ -13,7 +14,8 @@
         "port": 32781,
         "username": null,
         "password": null,
-        "group": "HQ1"
+        "group": "HQ1",
+        "type": "switch"
     },
     {
         "name": "R5",
@@ -21,7 +23,8 @@
         "port": 32773,
         "username": null,
         "password": null,
-        "group": "HQ1"
+        "group": "HQ1",
+        "type": "router"
     },
 
     {
@@ -30,7 +33,8 @@
         "port": 32782,
         "username": null,
         "password": null,
-        "group": "HQ2"
+        "group": "HQ2",
+        "type": "switch"
     },
     {
         "name": "R2",
@@ -38,7 +42,8 @@
         "port": 32770,
         "username": null,
         "password": null,
-        "group": "HQ2"
+        "group": "HQ2",
+        "type": "router"
     },
 
     {
@@ -47,7 +52,8 @@
         "port": 32771,
         "username": null,
         "password": null,
-        "group": "Branch"
+        "group": "Branch",
+        "type": "switch"
     },
     {
         "name": "R3",
@@ -55,7 +61,8 @@
         "port": 32778,
         "username": null,
         "password": null,
-        "group": "Branch"
+        "group": "Branch",
+        "type": "router"
     },
 
     {
@@ -64,7 +71,8 @@
         "port": 32780,
         "username": null,
         "password": null,
-        "group": "Warehouse"
+        "group": "Warehouse",
+        "type": "switch"
     },
     {
         "name": "R4",
@@ -72,7 +80,8 @@
         "port": 32777,
         "username": null,
         "password": null,
-        "group": "Warehouse"
+        "group": "Warehouse",
+        "type": "router"
     },
     {
         "name": "R6",
@@ -80,6 +89,7 @@
         "port": 32776,
         "username": null,
         "password": null,
-        "group": "Warehouse"
+        "group": "Warehouse",
+        "type": "router"
     }
 ]
