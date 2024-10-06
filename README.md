@@ -1,6 +1,10 @@
-# Building Campus Multilayer Switch Network
-<!-- init config -->
+## Building Campus Multilayer Switch Network
+**Init config**:
+```
 backup_telnet.py
+```
 
-<!-- vlan & trunk -->
+**Verify vlan and trunk**:
+```
 verify.py
+```
