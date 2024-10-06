@@ -12,6 +12,7 @@ def show_vlan_show_trunk(dev):
     print(connection, pformat(dev))
 
     content_vlan = ""
+    connection.write(b"en\n")
     connection.write(b"show vlan\n")
     while True:
         n, match, previous_text = connection.expect([b"--More--"], 2)
