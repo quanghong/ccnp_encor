@@ -1,0 +1,224 @@
+
+SW1#en
+SW1#show run
+Building configuration...
+
+  
+Current configuration : 4914 bytes
+!
+! Last configuration change at 00:42:53 UTC Tue Oct 8 2024
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname SW1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+username cisco privilege 15 secret 5 $1$9ju3$kfz.5ZkatjB761HI6strj/
+no aaa new-model
+!
+!
+!
+!
+!
+vtp mode transparent
+!
+!
+!
+ip domain-name cisco.com
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode mst
+spanning-tree extend system-id
+!
+spanning-tree mst configuration
+ name DBM_INC
+ revision 10
+ instance 1 vlan 10, 30, 50
+ instance 2 vlan 20, 40, 60
+ instance 3 vlan 100, 200, 300
+!
+spanning-tree mst 1 priority 0
+spanning-tree mst 2 priority 16384
+!
+!
+vlan access-map GUEST_ACCESS_VACL 10
+ match ip address HTTP_AND_HTTPS
+ action forward
+vlan access-map GUEST_ACCESS_VACL 20
+ match ip address ALL_IP
+ action drop
+!
+vlan filter GUEST_ACCESS_VACL vlan-list 60
+vlan internal allocation policy ascending
+!
+vlan 10
+ name SALES
+!
+vlan 20
+ name ACCOUNTING
+!
+vlan 30
+ name MANAGEMENT
+!
+vlan 40
+ name CUSTOMER_SERVICE
+!
+vlan 50
+ name WAREHOUSE
+!
+vlan 60
+ name GUEST_ACCESS
+!
+vlan 100,200,300 
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel13
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel12
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet0/0
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ switchport trunk allowed vlan 10,20,30
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ media-type rj45
+ no negotiation auto
+ channel-group 12 mode active
+!
+interface GigabitEthernet0/3
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ media-type rj45
+ negotiation auto
+ channel-group 13 mode desirable
+!
+interface GigabitEthernet1/0
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 666
+ switchport mode trunk
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ switchport access vlan 20
+ switchport mode access
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ media-type rj45
+ negotiation auto
+ channel-group 13 mode desirable
+!
+interface GigabitEthernet1/3
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ media-type rj45
+ no negotiation auto
+ channel-group 12 mode active
+!
+interface Vlan30
+ ip address 10.30.30.7 255.255.255.0
+!
+interface Vlan50
+ ip address 10.50.46.7 255.255.255.0
+!
+router rip
+ version 2
+ network 10.0.0.0
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+ip ssh version 2
+!
+ip access-list extended ALL_IP
+ permit ip any any
+ip access-list extended HTTP_AND_HTTPS
+ permit tcp any any eq www
+ permit tcp any eq www any
+ permit tcp any any eq 443
+ permit tcp any eq 443 any
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+!
+!
+end

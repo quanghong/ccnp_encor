@@ -30,7 +30,7 @@
     {
         "name": "SW2",
         "host": "192.168.116.142",
-        "port": 32782,
+        "port": 32772,
         "username": null,
         "password": null,
         "group": "HQ2",

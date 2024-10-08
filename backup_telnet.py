@@ -33,7 +33,8 @@ def backup(dev):
     # print(config)
     session.disconnect()
 
-    create_file(dev['name'] + '_init', './BCMSN/backup/', config)
+    # create_file(dev['name'] + '_init', './BCMSN/backup/', config)
+    create_file(dev['name'] + '_final', './BCMSN/backup/', config)
 
 
 def main():
