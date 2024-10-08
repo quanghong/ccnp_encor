@@ -54,6 +54,8 @@ def show_vlan_show_trunk(dev):
 #     pprint(vlans)
 
 
+# adding verify show int trunk, show etherchannel, regex port bundle
+
 
 def main():
     # username = input('username: ')
