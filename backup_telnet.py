@@ -5,6 +5,8 @@ from threading import Thread
 from lib.telnet import TELNET
 from feature import *
 
+path_code = input('path_code: ')
+
 def backup(dev):
     session = TELNET(host=dev['host'], username=dev['username'], password=dev['password'], port=dev['port'])
     connection = session.connect()
@@ -33,13 +35,13 @@ def backup(dev):
     # print(config)
     session.disconnect()
 
-    # create_file(dev['name'] + '_init', './BCMSN_Campus/backup/', config)
-    create_file(dev['name'] + '_final', './BCMSN_Campus/backup/', config)
+    # create_file(dev['name'] + '_init', './{}/backup/.format(path_code)', config)
+    create_file(dev['name'] + '_final', './{}/backup/'.format(path_code), config)
 
 
 def main():
     # Load data from inventory
-    file_path = './BCMSN_Campus/inventory.json'
+    file_path = './{}/inventory.json'.format(path_code)
     data = restore_json(file_path)
     # pprint(data)
 

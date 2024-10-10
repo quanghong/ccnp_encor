@@ -1,0 +1,86 @@
+[
+    {
+        "name": "R1",
+        "host": "192.168.116.142",
+        "port": 32769,
+        "username": null,
+        "password": null,
+        "type": "router",
+        "ip": "10.10.13.1"
+    },
+    {
+        "name": "SW1",
+        "host": "192.168.116.142",
+        "port": 32771,
+        "username": null,
+        "password": null,
+        "type": "switch_L3",
+        "ip": "192.168.20.137"
+    },
+    {
+        "name": "R4",
+        "host": "192.168.116.142",
+        "port": 32777,
+        "username": null,
+        "password": null,
+        "type": "router",
+        "ip": "10.20.25.5"
+    },
+
+    {
+        "name": "SW2",
+        "host": "192.168.116.142",
+        "port": 32780,
+        "username": null,
+        "password": null,
+        "type": "switch",
+        "ip": null
+    },
+    {
+        "name": "R2",
+        "host": "192.168.116.142",
+        "port": 32770,
+        "username": null,
+        "password": null,
+        "type": "router",
+        "ip": "10.20.25.2"
+    },
+
+    {
+        "name": "R6",
+        "host": "192.168.116.142",
+        "port": 32776,
+        "username": null,
+        "password": null,
+        "type": "switch",
+        "ip": null
+    },
+    {
+        "name": "R3",
+        "host": "192.168.116.142",
+        "port": 32778,
+        "username": null,
+        "password": null,
+        "type": "router",
+        "ip": "10.10.13.3"
+    },
+
+    {
+        "name": "R5",
+        "host": "192.168.116.142",
+        "port": 32773,
+        "username": null,
+        "password": null,
+        "type": "switch",
+        "ip": null
+    },
+    {
+        "name": "SW3",
+        "host": "192.168.116.142",
+        "port": 32772,
+        "username": null,
+        "password": null,
+        "type": "router",
+        "ip": "10.50.46.4"
+    }
+]

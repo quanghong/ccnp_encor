@@ -1,11 +1,11 @@
 # Building Campus Multilayer Switch Network
 
-![Topology](/BCMSN_Campus/DBM_Inc_Campus_Diagram_lab.JPG)
+![Topology](/BCMSN_Gateway_Redundancy/DBM_Inc_Gateway_Redundancy_Diagram_lab.JPG)
 
 **Init config**:
 ```
 backup_telnet.py
-path_code: BCMSN_Campus
+path_code: BCMSN_Gateway_Redundancy
 ```
 
 **Verify vlan, trunk, etherchannel, routes**:
