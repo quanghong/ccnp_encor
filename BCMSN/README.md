@@ -7,7 +7,7 @@
 backup_telnet.py
 ```
 
-**Verify vlan and trunk**:
+**Verify vlan, trunk, etherchannel, routes**:
 ```
 verify.py
 ```
