@@ -1,0 +1,93 @@
+show etherchannel detail
+		Channel-group listing: 
+		----------------------
+
+Group: 13 
+----------
+Group state = L2 
+Ports: 2   Maxports = 4
+Port-channels: 1 Max Port-channels = 1
+Protocol:   PAgP
+Minimum Links: 0
+
+
+		Ports in the group:
+		-------------------
+Port: Gi0/1
+------------
+
+Port state    = Up Mstr In-Bndl 
+Channel group = 13          Mode = Desirable-Sl    Gcchange = 0
+Port-channel  = Po13        GC   = 0x000D0001      Pseudo port-channel = Po13
+Port index    = 0           Load = 0x00            Protocol =   PAgP
+
+Flags:  S - Device is sending Slow hello.  C - Device is in Consistent state.
+        A - Device is in Auto mode.        P - Device learns on physical port.
+        d - PAgP is down.
+Timers: H - Hello timer is running.        Q - Quit timer is running.
+        S - Switching timer is running.    I - Interface timer is running.
+
+Local information:
+                                Hello    Partner  PAgP     Learning  Group
+Port      Flags State   Timers  Interval Count   Priority   Method  Ifindex
+Gi0/1     SC	U6/S7   H	30s	 1        128        Any      10
+
+Partner's information:
+
+          Partner              Partner          Partner         Partner Group
+Port      Name                 Device ID        Port       Age  Flags   Cap.
+Gi0/1     SW1.cisco.com        5000.000d.0000	Gi0/3        9s SC	D0001 
+
+Age of the port in the current state: 0d:03h:53m:09s
+
+Port: Gi1/2
+------------
+
+Port state    = Up Mstr In-Bndl 
+Channel group = 13          Mode = Desirable-Sl    Gcchange = 0
+Port-channel  = Po13        GC   = 0x000D0001      Pseudo port-channel = Po13
+Port index    = 0           Load = 0x00            Protocol =   PAgP
+
+Flags:  S - Device is sending Slow hello.  C - Device is in Consistent state.
+        A - Device is in Auto mode.        P - Device learns on physical port.
+        d - PAgP is down.
+Timers: H - Hello timer is running.        Q - Quit timer is running.
+        S - Switching timer is running.    I - Interface timer is running.
+
+Local information:
+                                Hello    Partner  PAgP     Learning  Group
+Port      Flags State   Timers  Interval Count   Priority   Method  Ifindex
+Gi1/2     SC	U6/S7   H	30s	 1        128        Any      10
+
+Partner's information:
+
+          Partner              Partner          Partner         Partner Group
+Port      Name                 Device ID        Port       Age  Flags   Cap.
+Gi1/2     SW1.cisco.com        5000.000d.0000	Gi1/2        7s SC	D0001 
+
+Age of the port in the current state: 0d:03h:53m:09s
+
+		Port-channels in the group: 
+		---------------------------
+
+Port-channel: Po13
+------------
+
+Age of the Port-channel   = 0d:03h:58m:44s
+Logical slot/port   = 16/0          Number of ports = 2
+GC                  = 0x000D0001      HotStandBy port = null
+Port state          = Port-channel Ag-Inuse 
+Protocol            =   PAgP
+Port security       = Disabled
+
+Ports in the Port-channel: 
+
+Index   Load   Port     EC state        No of bits
+------+------+------+------------------+-----------
+  0     00     Gi0/1    Desirable-Sl       0
+  0     00     Gi1/2    Desirable-Sl       0
+
+Time since last port bundled:    0d:03h:53m:09s    Gi1/2
+Time since last port Un-bundled: 0d:03h:53m:11s    Gi1/2
+
+SW3#

@@ -1,22 +1,28 @@
 show int trunk
 
 Port        Mode             Encapsulation  Status        Native vlan
-Gi0/1       on               802.1q         trunking      666
 Gi0/2       on               802.1q         trunking      666
-Gi1/0       on               802.1q         trunking      666
+Gi1/0       on               802.1q         trunking      1
+Gi1/3       on               802.1q         trunking      1
+Po13        on               802.1q         trunking      1
 
 Port        Vlans allowed on trunk
-Gi0/1       1-4094
 Gi0/2       1-4094
-Gi1/0       1-4094
+Gi1/0       1-49,51-4094
+Gi1/3       1-49,51-4094
+Po13        1-4094
 
 Port        Vlans allowed and active in management domain
-Gi0/1       1,10,20,30,40,50,60
-Gi0/2       1,10,20,30,40,50,60
-Gi1/0       1,10,20,30,40,50,60
+Gi0/2       1,10,20,30,40,50,60,100,200,300
+Gi1/0       1,10,20,30,40,60,100,200,300
+Gi1/3       1,10,20,30,40,60,100,200,300
+Po13        1,10,20,30,40,50,60,100,200,300
 
 Port        Vlans in spanning tree forwarding state and not pruned
-Gi0/1       1,10,20,30,40,50,60
-Gi0/2       1,10,20,30,40,50,60
-Gi1/0       1,10,20,30,40,50,60
+Gi0/2       1,20,40,60,100,200,300
+Gi1/0       1,10,30,100,200,300
+Gi1/3       1,10,30,100,200,300
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Po13        1,10,30,50,100,200,300
 SW3#

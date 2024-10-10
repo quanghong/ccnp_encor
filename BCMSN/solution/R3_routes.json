@@ -1,0 +1,44 @@
+[
+    {
+        "distance": "1",
+        "flag": "*",
+        "metric": "0",
+        "network": "0.0.0.0",
+        "nexthop_if": "",
+        "nexthop_ip": "10.10.13.1",
+        "nexthop_vrf": "",
+        "prefix_length": "0",
+        "protocol": "S",
+        "type": "",
+        "uptime": "",
+        "vrf": ""
+    },
+    {
+        "distance": "",
+        "flag": "",
+        "metric": "",
+        "network": "10.10.13.0",
+        "nexthop_if": "GigabitEthernet0/0",
+        "nexthop_ip": "",
+        "nexthop_vrf": "",
+        "prefix_length": "24",
+        "protocol": "C",
+        "type": "",
+        "uptime": "",
+        "vrf": ""
+    },
+    {
+        "distance": "",
+        "flag": "",
+        "metric": "",
+        "network": "10.10.13.3",
+        "nexthop_if": "GigabitEthernet0/0",
+        "nexthop_ip": "",
+        "nexthop_vrf": "",
+        "prefix_length": "32",
+        "protocol": "L",
+        "type": "",
+        "uptime": "",
+        "vrf": ""
+    }
+]

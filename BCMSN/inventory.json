@@ -6,7 +6,8 @@
         "username": null,
         "password": null,
         "group": "HQ1",
-        "type": "router"
+        "type": "router",
+        "ip": "10.10.13.1"
     },
     {
         "name": "SW1",
@@ -15,7 +16,8 @@
         "username": null,
         "password": null,
         "group": "HQ1",
-        "type": "switch"
+        "type": "switch_L3",
+        "ip": "192.168.20.137"
     },
     {
         "name": "R5",
@@ -24,7 +26,8 @@
         "username": null,
         "password": null,
         "group": "HQ1",
-        "type": "router"
+        "type": "router",
+        "ip": "10.20.25.5"
     },
 
     {
@@ -34,7 +37,8 @@
         "username": null,
         "password": null,
         "group": "HQ2",
-        "type": "switch"
+        "type": "switch",
+        "ip": null
     },
     {
         "name": "R2",
@@ -43,7 +47,8 @@
         "username": null,
         "password": null,
         "group": "HQ2",
-        "type": "router"
+        "type": "router",
+        "ip": "10.20.25.2"
     },
 
     {
@@ -53,7 +58,8 @@
         "username": null,
         "password": null,
         "group": "Branch",
-        "type": "switch"
+        "type": "switch",
+        "ip": null
     },
     {
         "name": "R3",
@@ -62,7 +68,8 @@
         "username": null,
         "password": null,
         "group": "Branch",
-        "type": "router"
+        "type": "router",
+        "ip": "10.10.13.3"
     },
 
     {
@@ -72,7 +79,8 @@
         "username": null,
         "password": null,
         "group": "Warehouse",
-        "type": "switch"
+        "type": "switch",
+        "ip": null
     },
     {
         "name": "R4",
@@ -81,7 +89,8 @@
         "username": null,
         "password": null,
         "group": "Warehouse",
-        "type": "router"
+        "type": "router",
+        "ip": "10.50.46.4"
     },
     {
         "name": "R6",
@@ -90,6 +99,7 @@
         "username": null,
         "password": null,
         "group": "Warehouse",
-        "type": "router"
+        "type": "router",
+        "ip": "10.50.46.6"
     }
 ]

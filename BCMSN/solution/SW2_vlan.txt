@@ -3,13 +3,16 @@ SW2#show vlan
 
 VLAN Name                             Status    Ports
 ---- -------------------------------- --------- -------------------------------
-1    default                          active    Gi0/0, Gi1/1, Gi1/2, Gi1/3
+1    default                          active    Gi0/0, Gi1/1
 10   SALES                            active    
 20   ACCOUNTING                       active    Gi0/2
 30   MANAGEMENT                       active    
 40   CUSTOMER_SERVICE                 active    
 50   WAREHOUSE                        active    
 60   GUEST_ACCESS                     active    
+100  VLAN0100                         active    
+200  VLAN0200                         active    
+300  VLAN0300                         active    
 1002 fddi-default                     act/unsup 
 1003 token-ring-default               act/unsup 
 1004 fddinet-default                  act/unsup 
@@ -20,13 +23,16 @@ VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
 1    enet  100001     1500  -      -      -        -    -        0      0   
 10   enet  100010     1500  -      -      -        -    -        0      0   
 20   enet  100020     1500  -      -      -        -    -        0      0   
-30   enet  100030     1500  -      -      -        -    -        0      0   
-40   enet  100040     1500  -      -      -        -    -        0      0   
-50   enet  100050     1500  -      -      -        -    -        0      0   
 
 VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
 ---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+30   enet  100030     1500  -      -      -        -    -        0      0   
+40   enet  100040     1500  -      -      -        -    -        0      0   
+50   enet  100050     1500  -      -      -        -    -        0      0   
 60   enet  100060     1500  -      -      -        -    -        0      0   
+100  enet  100100     1500  -      -      -        -    -        0      0   
+200  enet  100200     1500  -      -      -        -    -        0      0   
+300  enet  100300     1500  -      -      -        -    -        0      0   
 1002 fddi  101002     1500  -      -      -        -    -        0      0   
 1003 tr    101003     1500  -      -      -        -    -        0      0   
 1004 fdnet 101004     1500  -      -      -        ieee -        0      0   

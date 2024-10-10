@@ -1,0 +1,170 @@
+show etherchannel detail
+		Channel-group listing: 
+		----------------------
+
+Group: 12 
+----------
+Group state = L2 
+Ports: 2   Maxports = 4
+Port-channels: 1 Max Port-channels = 4
+Protocol:   LACP
+Minimum Links: 0
+
+
+		Ports in the group:
+		-------------------
+Port: Gi0/1
+------------
+
+Port state    = Up Mstr Assoc In-Bndl 
+Channel group = 12          Mode = Active          Gcchange = -
+Port-channel  = Po12        GC   =   -             Pseudo port-channel = Po12
+Port index    = 0           Load = 0x00            Protocol =   LACP
+
+Flags:  S - Device is sending Slow LACPDUs   F - Device is sending fast LACPDUs.
+        A - Device is in active mode.        P - Device is in passive mode.
+
+Local information:
+                            LACP port     Admin     Oper    Port        Port
+Port      Flags   State     Priority      Key       Key     Number      State
+Gi0/1     SA      bndl      32768         0xC       0xC     0x2         0x3D  
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Gi0/1     SA      32768     5000.000d.0000   9s    0x0    0xC    0x3     0x3D  
+
+Age of the port in the current state: 0d:03h:53m:46s
+
+Port: Gi1/3
+------------
+
+Port state    = Up Mstr Assoc In-Bndl 
+Channel group = 12          Mode = Active          Gcchange = -
+Port-channel  = Po12        GC   =   -             Pseudo port-channel = Po12
+Port index    = 0           Load = 0x00            Protocol =   LACP
+
+Flags:  S - Device is sending Slow LACPDUs   F - Device is sending fast LACPDUs.
+        A - Device is in active mode.        P - Device is in passive mode.
+
+Local information:
+                            LACP port     Admin     Oper    Port        Port
+Port      Flags   State     Priority      Key       Key     Number      State
+Gi1/3     SA      bndl      32768         0xC       0xC     0x104       0x3D  
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Gi1/3     SA      32768     5000.000d.0000  17s    0x0    0xC    0x104   0x3D  
+
+Age of the port in the current state: 0d:03h:53m:46s
+
+		Port-channels in the group: 
+		---------------------------
+
+Port-channel: Po12    (Primary Aggregator)
+
+------------
+
+Age of the Port-channel   = 0d:04h:00m:28s
+Logical slot/port   = 16/1          Number of ports = 2
+HotStandBy port = null 
+Port state          = Port-channel Ag-Inuse 
+Protocol            =   LACP
+Port security       = Disabled
+
+Ports in the Port-channel: 
+
+Index   Load   Port     EC state        No of bits
+------+------+------+------------------+-----------
+  0     00     Gi0/1    Active             0
+  0     00     Gi1/3    Active             0
+
+Time since last port bundled:    0d:03h:53m:46s    Gi1/3
+Time since last port Un-bundled: 0d:03h:53m:48s    Gi1/3
+
+Group: 24 
+----------
+Group state = L2 
+Ports: 2   Maxports = 4
+Port-channels: 1 Max Port-channels = 4
+Protocol:   LACP
+Minimum Links: 0
+
+
+		Ports in the group:
+		-------------------
+Port: Gi1/0
+------------
+
+Port state    = Up Mstr Assoc In-Bndl 
+Channel group = 24          Mode = Active          Gcchange = -
+Port-channel  = Po24        GC   =   -             Pseudo port-channel = Po24
+Port index    = 0           Load = 0x00            Protocol =   LACP
+
+Flags:  S - Device is sending Slow LACPDUs   F - Device is sending fast LACPDUs.
+        A - Device is in active mode.        P - Device is in passive mode.
+
+Local information:
+                            LACP port     Admin     Oper    Port        Port
+Port      Flags   State     Priority      Key       Key     Number      State
+Gi1/0     SA      bndl      32768         0x18      0x18    0x101       0x3D  
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Gi1/0     SA      32768     5000.000c.0000   5s    0x0    0x18   0x3     0x3D  
+
+Age of the port in the current state: 0d:03h:59m:12s
+
+Port: Gi1/2
+------------
+
+Port state    = Up Mstr Assoc In-Bndl 
+Channel group = 24          Mode = Active          Gcchange = -
+Port-channel  = Po24        GC   =   -             Pseudo port-channel = Po24
+Port index    = 0           Load = 0x00            Protocol =   LACP
+
+Flags:  S - Device is sending Slow LACPDUs   F - Device is sending fast LACPDUs.
+        A - Device is in active mode.        P - Device is in passive mode.
+
+Local information:
+                            LACP port     Admin     Oper    Port        Port
+Port      Flags   State     Priority      Key       Key     Number      State
+Gi1/2     SA      bndl      32768         0x18      0x18    0x103       0x3D  
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Gi1/2     SA      32768     5000.000c.0000  23s    0x0    0x18   0x102   0x3D  
+
+Age of the port in the current state: 0d:03h:59m:11s
+
+		Port-channels in the group: 
+		---------------------------
+
+Port-channel: Po24    (Primary Aggregator)
+
+------------
+
+Age of the Port-channel   = 0d:04h:00m:28s
+Logical slot/port   = 16/0          Number of ports = 2
+HotStandBy port = null 
+Port state          = Port-channel Ag-Inuse 
+Protocol            =   LACP
+Port security       = Disabled
+
+Ports in the Port-channel: 
+
+Index   Load   Port     EC state        No of bits
+------+------+------+------------------+-----------
+  0     00     Gi1/0    Active             0
+  0     00     Gi1/2    Active             0
+
+Time since last port bundled:    0d:03h:59m:11s    Gi1/2
+
+SW2#
