@@ -35,8 +35,8 @@ def backup(dev):
     # print(config)
     session.disconnect()
 
-    # create_file(dev['name'] + '_init', './{}/backup/.format(path_code)', config)
-    create_file(dev['name'] + '_final', './{}/backup/'.format(path_code), config)
+    create_file(dev['name'] + '_init', './{}/backup/.format(path_code)', config)
+    # create_file(dev['name'] + '_final', './{}/backup/'.format(path_code), config)
 
 
 def main():

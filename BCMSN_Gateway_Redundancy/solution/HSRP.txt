@@ -1,0 +1,31 @@
+R1#
+!
+track 1 interface GigabitEthernet0/1 line-protocol
+!
+interface GigabitEthernet0/0
+ ip address 10.100.14.1 255.255.255.0
+ standby 1 ip 10.100.14.254
+ standby 1 timers msec 333 1
+ standby 1 priority 150
+ standby 1 preempt delay minimum 30
+ standby 1 authentication md5 key-string DBM_HSRP
+ standby 1 track 1 decrement 100
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+end
+
+R2#
+!
+interface GigabitEthernet0/0
+ ip address 10.100.14.4 255.255.255.0
+ standby 1 ip 10.100.14.254
+ standby 1 timers msec 333 1
+ standby 1 preempt
+ standby 1 authentication md5 key-string DBM_HSRP
+ ip ospf 1 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+end
