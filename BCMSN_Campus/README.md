@@ -1,6 +1,6 @@
 # Building Campus Multilayer Switch Network
 
-![Topology](/BCMSN/DBM_Inc_Campus_Diagram_lab.JPG)
+![Topology](/BCMSN_Campus/DBM_Inc_Campus_Diagram_lab.JPG)
 
 **Init config**:
 ```

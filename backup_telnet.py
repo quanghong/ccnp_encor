@@ -33,13 +33,13 @@ def backup(dev):
     # print(config)
     session.disconnect()
 
-    # create_file(dev['name'] + '_init', './BCMSN/backup/', config)
-    create_file(dev['name'] + '_final', './BCMSN/backup/', config)
+    # create_file(dev['name'] + '_init', './BCMSN_Campus/backup/', config)
+    create_file(dev['name'] + '_final', './BCMSN_Campus/backup/', config)
 
 
 def main():
     # Load data from inventory
-    file_path = './BCMSN/inventory.json'
+    file_path = './BCMSN_Campus/inventory.json'
     data = restore_json(file_path)
     # pprint(data)
 

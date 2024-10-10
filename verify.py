@@ -53,9 +53,9 @@ def show_vlan_show_trunk(dev):
     pprint(content_trunk)
     pprint(content_etherchannel)
     
-    create_file(dev['name'] + '_vlan', './BCMSN/solution/', content_vlan)
-    create_file(dev['name'] + '_trunk', './BCMSN/solution/', content_trunk)
-    create_file(dev['name'] + '_etherchannel', './BCMSN/solution/', content_etherchannel)
+    create_file(dev['name'] + '_vlan', './BCMSN_Campus/solution/', content_vlan)
+    create_file(dev['name'] + '_trunk', './BCMSN_Campus/solution/', content_trunk)
+    create_file(dev['name'] + '_etherchannel', './BCMSN_Campus/solution/', content_etherchannel)
 
 
 def show_ip_route(dev):
@@ -67,12 +67,12 @@ def show_ip_route(dev):
     session.disconnect()
 
     print('ip={}, routes={}'.format(dev['host'], pformat(routes)))
-    backup_json(routes, './BCMSN/solution/{}_routes.json'.format(dev['name']))
+    backup_json(routes, './BCMSN_Campus/solution/{}_routes.json'.format(dev['name']))
 
 
 def main():
     # Load data from inventory
-    file_path = './BCMSN/inventory.json'
+    file_path = './BCMSN_Campus/inventory.json'
     hosts_all = restore_json(file_path)
 
     '''Switches'''
