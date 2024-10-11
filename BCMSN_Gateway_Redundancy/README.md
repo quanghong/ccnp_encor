@@ -137,7 +137,7 @@ Gi0/0       1    1   -   Listen   0007.b400.0101  10.100.14.1     -
 Gi0/0       1    2   -   Active   0007.b400.0102  local           -
 ```
 
-We can see R2, R6 have same default gatway but different MAC address. This is how GLBP load balance traffic.
+We can see R2, R6 have same default gateway but different MAC address. This is how GLBP load balance traffic.
 ```bash
 R2#show arp
 Protocol  Address          Age (min)  Hardware Addr   Type   Interface
