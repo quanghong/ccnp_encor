@@ -12,5 +12,5 @@ Feel free to message me if you have any questions, I hope this repo will be help
 - [x] [NetworkLessons CCIE Routing & Switching](https://networklessons.com/cisco/ccie-routing-switching) ***Highly recommend***
 - [x] INE All in one lab workbook
 
-*Oct 11 2024*
+*Oct 11 2024. Thankyou, *
 *Quang.*
