@@ -5,7 +5,7 @@ I create this repo to track all my knowledge to study CCNP Enterprise. I have st
 
 After years totally focus on developing Network Automation tools. Now I think I need to improve my Network Design skill and also learning more about Networking cores.
 
-I have searched and studied a lot of resources but I will resources I found that are the most helpful for me along the way.
+I have searched and studied a lot of resources but I will list resources I found that are the most helpful for me along the way.
 Feel free to message me if you have any questions, I hope this repo will be helpful for you too!
 
 ## Resources:
