@@ -60,7 +60,7 @@ Logs.
 ```
 
 ## VRRP
-**Checking standby status**
+**Checking vrrp status**
 ```bash
 R1#show vrrp brief
 Interface          Grp Pri Time  Own Pre State   Master addr     Group addr
@@ -117,3 +117,52 @@ interface GigabitEthernet0/0
  vrrp 2 priority 150
 ```
 
+## GLBP
+**Checking glbp status**
+R1 is Active Virtual Gateway (priority 150). R4 is Active Virtual Forwader (priority 100).
+We have 2 two virtual MAC address:
+* R1: 0007.b400.0101
+* R2: 0007.b400.0102
+```bash
+R1#show glbp brief
+Interface   Grp  Fwd Pri State    Address         Active router   Standby router
+Gi0/0       1    -   150 Active   10.100.14.254   local           10.100.14.4
+Gi0/0       1    1   -   Active   0007.b400.0101  local           -
+Gi0/0       1    2   -   Listen   0007.b400.0102  10.100.14.4     -
+
+R4#show glbp brief
+Interface   Grp  Fwd Pri State    Address         Active router   Standby router
+Gi0/0       1    -   100 Standby  10.100.14.254   10.100.14.1     local
+Gi0/0       1    1   -   Listen   0007.b400.0101  10.100.14.1     -
+Gi0/0       1    2   -   Active   0007.b400.0102  local           -
+```
+
+We can see R2, R6 have same default gatway but different MAC address. This is how GLBP load balance traffic.
+```bash
+R2#show arp
+Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+...
+Internet  10.100.14.254           0   0007.b400.0102  ARPA   GigabitEthernet0/2
+
+R6#show arp
+Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+...
+Internet  10.100.14.254           0   0007.b400.0101  ARPA   GigabitEthernet0/2
+```
+
+GLBP default weighting is 100. We set if interface uplink R1 down, R1 will decrease its weighting.
+If weighting is lower 70. It become AVF, R4 will be AVG.
+```bash
+#R1
+R1#glbp 1 weighting 100 lower 70 upper 90
+
+R1#show glbp | in Weigh
+Weighting 60, low (configured 100), thresholds: lower 70, upper 90
+```
+Logs.
+```bash
+#R1
+*Oct 10 20:37:25.330: %GLBP-6-FWDSTATECHANGE: GigabitEthernet0/0 Grp 1 Fwd 1 state Active -> Listen
+#R4
+*Oct 10 20:53:56.672: %GLBP-6-FWDSTATECHANGE: GigabitEthernet0/0 Grp 1 Fwd 1 state Listen -> Active
+```

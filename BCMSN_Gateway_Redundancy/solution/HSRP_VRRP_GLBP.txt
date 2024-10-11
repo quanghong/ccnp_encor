@@ -65,3 +65,46 @@ end
 
 #R1
 interface GigabitEthernet0/0
+ vrrp 2 ip 10.100.25.254
+
+#R2
+interface GigabitEthernet0/0
+ vrrp 2 ip 10.100.25.254
+ vrrp 2 priority 150
+
+
+# GLBP
+#R1
+interface GigabitEthernet0/0
+ glbp 1 ip 10.100.14.254
+ glbp 1 priority 150
+
+ glbp 1 preempt
+ glbp 1 authentication md5 key-string DBM_GLBP
+ 
+ glbp 1 timers msec 333 1
+ glbp 1 weighting 2
+ glbp 1 load-balancing weighted
+ glbp 1 weighting track 1 decrement 2
+ glbp 1 forwarder preempt delay minimum 0
+ duplex auto
+ speed auto
+ media-type rj45
+end
+
+#R4
+interface GigabitEthernet0/0
+ glbp 1 ip 10.100.14.254
+
+ glbp 1 preempt
+ glbp 1 authentication md5 key-string DBM_GLBP
+
+ glbp 1 timers msec 333 1
+ glbp 1 weighting 1
+ glbp 1 load-balancing weighted
+ glbp 1 weighting track 1 decrement 1
+ glbp 1 forwarder preempt delay minimum 0
+ duplex auto
+ speed auto
+ media-type rj45
+end
