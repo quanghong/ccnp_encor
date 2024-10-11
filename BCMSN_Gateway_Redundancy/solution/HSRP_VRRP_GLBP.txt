@@ -1,3 +1,4 @@
+# HSRP
 R1#
 !
 track 1 interface GigabitEthernet0/1 line-protocol
@@ -42,3 +43,25 @@ R1(config)#ip sla schedule 1 start-time now life forever
 
 R1(config)#int gi 0/0
 R1(config-if)#standby 1 track 1 decrement 60
+
+
+# VRRP
+#R1
+interface GigabitEthernet0/0
+ vrrp 1 ip 10.100.14.254
+ vrrp 1 timers advertise msec 333
+ vrrp 1 preempt delay minimum 30
+ vrrp 1 priority 150
+ vrrp 1 authentication md5 key-string DBM_VRRP
+ vrrp 1 track 1 decrement 60
+end
+
+#R4
+interface GigabitEthernet0/0
+ vrrp 1 ip 10.100.14.254
+ vrrp 1 timers advertise msec 333
+ vrrp 1 authentication md5 key-string DBM_VRRP
+end
+
+#R1
+interface GigabitEthernet0/0
