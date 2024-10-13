@@ -1,0 +1,198 @@
+
+R2#
+R2#en
+R2#show run
+Building configuration...
+
+Current configuration : 3549 bytes
+!
+! Last configuration change at 03:34:16 UTC Sun Oct 13 2024
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+
+R2#n
+% Ambiguous command:  "n"
+R2#show run
+Building configuration...
+
+*Oct 13 03:38:34.158: NHRP: No SNMP node found to add requestID
+*Oct 13 03:38:34.159: NHRP: Attempting to send packet through interface Tunnel1 via DEST  dst 172.16.245.4
+*Oct 13 03:38:34.160: NHRP: Send Registration Request via Tunnel1 vrf global(0x0), packet size: 106
+*Oct 13 03:38:34.161:       src: 172.16.245.2, dst: 172.16.245.4
+*Oct 13 03:38:34.161: NHRP: 130 bytes out Tunnel1 
+*Oct 13 03:38:34.205: NHRP: Receive Registration Reply via Tunnel1 vrf global(0x0), packet size: 126
+Current configuration : 3549 bytes
+!
+! Last configuration change at 03:34:16 UTC Sun Oct 13 2024
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.255.255.2 255.255.255.255
+!
+interface Tunnel0
+ ip address 172.16.123.2 255.255.255.0
+ ip nhrp authentication DMVPN1
+ ip nhrp map multicast 10.0.0.1
+ ip nhrp map 172.16.123.1 10.0.0.1
+ ip nhrp network-id 1
+ ip nhrp nhs 172.16.123.1
+ tunnel source GigabitEthernet0/1
+ tunnel destination 10.0.0.1
+!
+interface Tunnel1
+ ip address 172.16.245.2 255.255.255.0
+ ip nhrp authentication DMVPN2
+ ip nhrp map multicast 10.0.0.9
+ ip nhrp map 172.16.245.4 10.0.0.9
+ ip nhrp network-id 2
+ ip nhrp nhs 172.16.245.4
+ tunnel source GigabitEthernet0/2
+ tunnel destination 10.0.0.9
+!
+interface GigabitEthernet0/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.0.0.2 255.255.255.248
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 10.0.0.10 255.255.255.248
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
