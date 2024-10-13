@@ -88,7 +88,7 @@ Logs
 ```
 
 **Validate two DMVPNs, tunnel 0 and 1**
-We can show dmvpn status to see R5 has two tunnel for each DMVPN.
+We can show dmvpn status to see R5 has two tunnels for each DMVPN.
 ```bash
 R5#show dmvpn
 Legend: Attrb --> S - Static, D - Dynamic, I - Incomplete
