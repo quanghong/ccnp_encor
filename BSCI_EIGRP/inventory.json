@@ -5,7 +5,7 @@
         "port": 32770,
         "username": null,
         "password": null,
-        "type": "router",
+        "type": "router_edge",
         "ip": "10.10.13.1"
     },
     {
@@ -14,36 +14,27 @@
         "port": 32773,
         "username": null,
         "password": null,
-        "type": "router",
+        "type": "router_edge",
         "ip": "192.168.20.137"
     },
+
     {
         "name": "R4",
         "host": "192.168.116.142",
         "port": 32769,
         "username": null,
         "password": null,
-        "type": "router",
+        "type": "router_core",
         "ip": "10.20.25.5"
     },
-
     {
         "name": "R1",
         "host": "192.168.116.142",
         "port": 32771,
         "username": null,
         "password": null,
-        "type": "router",
+        "type": "router_core",
         "ip": null
-    },
-    {
-        "name": "R2",
-        "host": "192.168.116.142",
-        "port": 32770,
-        "username": null,
-        "password": null,
-        "type": "router",
-        "ip": "10.20.25.2"
     },
 
     {
