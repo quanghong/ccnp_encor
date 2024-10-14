@@ -1,0 +1,250 @@
+
+
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************
+R5#
+R5#terminal width 511
+R5#terminal length 0
+R5#
+R5#
+R5#
+R5#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R5(config)#
+R5(config)#!
+R5(config)#key chain EIGRP
+R5(config-keychain)#key 1
+R5(config-keychain-key)#key-string DBMI_EIGRP
+R5(config-keychain-key)#!
+R5(config-keychain-key)#
+R5(config-keychain-key)#    interface range gi 0/1 - 2
+R5(config-if-range)#    ip authentication mode eigrp 100 md5
+R5(config-if-range)#
+
+
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************
+R5#
+R5#terminal width 511
+R5#terminal length 0
+R5#
+R5#
+R5#
+R5#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R5(config)#
+R5(config)#!
+R5(config)#key chain EIGRP
+R5(config-keychain)#key 1
+R5(config-keychain-key)#key-string DBMI_EIGRP
+R5(config-keychain-key)#!
+R5(config-keychain-key)#
+R5(config-keychain-key)#    interface range gi 0/1 - 2
+R5(config-if-range)#    ip authentication mode eigrp 100 md5
+R5(config-if-range)#    ip authentication key-chain eigrp 100 EIGRP
+R5(config-if-range)#    exit
+R5(config)#    !
+R5(config)#    router eigrp 100
+R5(config-router)#    passive-interface default
+R5(config-router)#
+
+
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************
+R5#
+R5#terminal width 511
+R5#terminal length 0
+R5#
+R5#
+R5#
+R5#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R5(config)#
+R5(config)#!
+R5(config)#key chain EIGRP
+R5(config-keychain)#key 1
+R5(config-keychain-key)#key-string DBMI_EIGRP
+R5(config-keychain-key)#!
+R5(config-keychain-key)#
+R5(config-keychain-key)#    interface range gi 0/1 - 2
+R5(config-if-range)#    ip authentication mode eigrp 100 md5
+R5(config-if-range)#    ip authentication key-chain eigrp 100 EIGRP
+R5(config-if-range)#    exit
+R5(config)#    !
+R5(config)#    router eigrp 100
+R5(config-router)#    passive-interface default
+R5(config-router)#    !
+R5(config-router)#    no passive-interface gi 0/1
+R5(config-router)#    no passive-interface gi 0/2
+R5(config-router)#    !
+R5(config-router)#
+R5(config-router)#end
+R5#
+R5#
+R5#
+R5#write mem
+Building configuration...
+
+  [OK]
+R5#
+R5#exit
+
+
+
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************
+R5#
+R5#terminal width 511
+R5#terminal length 0
+R5#
+R5#
+R5#
+R5#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R5(config)#
+R5(config)#!
+R5(config)#key chain EIGRP
+R5(config-keychain)#key 1
+R5(config-keychain-key)#key-string DBMI_EIGRP
+R5(config-keychain-key)#!
+R5(config-keychain-key)#
+R5(config-keychain-key)#    interface range gi 0/1 - 2
+R5(config-if-range)#    ip authentication mode eigrp 100 md5
+R5(config-if-range)#    ip authentication key-chain eigrp 100 EIGRP
+R5(config-if-range)#    exit
+R5(config)#    !
+R5(config)#    router eigrp 100
+R5(config-router)#    passive-interface default
+R5(config-router)#    !
+R5(config-router)#    no passive-interface gi 0/1
+R5(config-router)#    no passive-interface gi 0/2
+R5(config-router)#    !
+R5(config-router)#
+R5(config-router)#end
+R5#
+R5#
+R5#
+R5#write mem
+Building configuration...
+
+  [OK]
+R5#
+R5#exit
+
+
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************
+R5#
+R5#terminal width 511
+R5#terminal length 0
+R5#
+R5#
+R5#
+R5#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R5(config)#
+R5(config)#!
+R5(config)#key chain EIGRP
+R5(config-keychain)#key 1
+R5(config-keychain-key)#key-string DBMI_EIGRP
+R5(config-keychain-key)#!
+R5(config-keychain-key)#
+R5(config-keychain-key)#    interface range gi 0/1 - 2
+R5(config-if-range)#    ip authentication mode eigrp 100 md5
+R5(config-if-range)#    ip authentication key-chain eigrp 100 EIGRP
+R5(config-if-range)#    exit
+R5(config)#    !
+R5(config)#    router eigrp 100
+R5(config-router)#    passive-interface default
+R5(config-router)#    !
+R5(config-router)#    no passive-interface gi 0/1
+R5(config-router)#    no passive-interface gi 0/2
+R5(config-router)#    !
+R5(config-router)#
+R5(config-router)#end
+R5#
+R5#
+R5#
+R5#write mem
+Building configuration...
+
+  [OK]
+R5#
+R5#exit
+
+
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************
+R5#
+R5#terminal width 511
+R5#terminal length 0
+R5#
+R5#
+R5#
+R5#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R5(config)#
+R5(config)#!
+R5(config)#key chain EIGRP
+R5(config-keychain)#key 1
+R5(config-keychain-key)#key-string DBMI_EIGRP
+R5(config-keychain-key)#!
+R5(config-keychain-key)#
+R5(config-keychain-key)#    interface range gi 0/1 - 2
+R5(config-if-range)#    ip authentication mode eigrp 100 md5
+R5(config-if-range)#    ip authentication key-chain eigrp 100 EIGRP
+R5(config-if-range)#    exit
+R5(config)#    !
+R5(config)#    router eigrp 100
+R5(config-router)#    passive-interface default
+R5(config-router)#    !
+R5(config-router)#    no passive-interface gi 0/1
+R5(config-router)#    no passive-interface gi 0/2
+R5(config-router)#    !
+R5(config-router)#
+R5(config-router)#end
+R5#
+R5#
+R5#
+R5#write mem
+Building configuration...
+
+  [OK]
+R5#
+R5#exit

@@ -1,0 +1,79 @@
+!
+key chain EIGRP
+key 1
+key-string DBMI_EIGRP
+!
+{% if name in ['R2', 'R5'] %}
+    interface range gi 0/1 - 2
+    ip authentication mode eigrp 100 md5
+    ip authentication key-chain eigrp 100 EIGRP
+    exit
+    !
+    router eigrp 100
+    passive-interface default
+    !
+    no passive-interface gi 0/1
+    no passive-interface gi 0/2
+    !
+{% elif name in ['R1', 'R4'] %}
+    interface range gi 0/0 - 1
+    ip authentication mode eigrp 100 md5
+    ip authentication key-chain eigrp 100 EIGRP
+    exit
+    !
+    {% if name == 'R1' %}
+    router eigrp 100
+     neighbor 10.100.17.7 gi 0/1
+    !
+    {% elif name == 'R4' %}
+    router eigrp 100
+     neighbor 10.100.48.8 gi 0/1
+    {% else %}
+    !
+    {% endif %}
+{% elif name == 'SW1' %}
+    interface range po 12, po 13, gi 1/1, gi 1/0
+    ip authentication mode eigrp 100 md5
+    ip authentication key-chain eigrp 100 EIGRP
+    exit
+    !
+    router eigrp 100
+    passive-interface vlan 7
+    neighbor 10.100.17.1 gi 1/1
+    !
+{% elif name == 'SW4' %}
+    interface range po 24, gi 0/1
+    ip authentication mode eigrp 100 md5
+    ip authentication key-chain eigrp 100 EIGRP
+    exit
+    !
+    router eigrp 100
+    passive-interface vlan 10
+    !
+{% elif name == 'SW2' %}
+    interface range po 12, po 24, gi 1/1, gi 0/3
+    ip authentication mode eigrp 100 md5
+    ip authentication key-chain eigrp 100 EIGRP
+    exit
+    !
+    router eigrp 100
+    passive-interface vlan 8
+    neighbor 10.100.48.4 gi 1/1
+    !
+{% elif name == 'SW3' %}
+    interface range po 13, gi 0/2
+    ip authentication mode eigrp 100 md5
+    ip authentication key-chain eigrp 100 EIGRP
+    exit
+    !
+    router eigrp 100
+    passive-interface vlan 9
+    exit
+    !
+    interface gi 1/3 {# interface connect to ubuntu server #}
+    ip authentication mode eigrp 100 md5
+    ip authentication key-chain eigrp 100 EIGRP
+    !
+{% else %}
+!
+{% endif %}

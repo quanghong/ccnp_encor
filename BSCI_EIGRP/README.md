@@ -5,10 +5,11 @@
 ![Topology](/BSCI_EIGRP/DBM_Inc_EIGRP_Diagram_lab.JPG)
 
 ## Init config
+I decide to split code folders into each solution. We still have backup_configure.py to backup cfg all devices using telnet with port eve-ng.
+But to resolve each solution, we need to change directory to each folder.
 ```bash
 backup_telnet.py
 PATH_CODE: BSCI_EIGRP
-TEMPLATE_DIR: template
 ```
 
 **Adding route for Ubuntu server**:
@@ -150,3 +151,9 @@ line vty 0 4
  login local
  transport input all
 !
+
+## Configure EIGRP and EIGRP Security
+Configure all interface loopback in EIGRP for management.
+**Enable EIGRP Security with correct flow**
+To not interrupt connection from Ubuntu Server to all devices. We have to configure with flow managment.
+> R5 --- R2 --- R1 --- R4 --- SW1 --- SW4 --- SW2 --- SW3
