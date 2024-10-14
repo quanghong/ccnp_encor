@@ -123,3 +123,22 @@ VRF info: (vrf in name/id, vrf out name/id)
   1 172.16.123.1 9 msec 9 msec 6 msec
   2 172.16.123.2 13 msec 6 msec *
 ```
+
+## Enable SSH
+**Enable password encryption**
+> service password-encryption
+
+**Setting enable password**
+> enable password "key-string"
+
+**Enable SSH with secret**
+> ip ssh version 2
+username cisco privilege 15 secret "key-string"
+!
+line console 0
+ login local
+!
+line vty 0 4
+ login local
+ transport input all
+!
