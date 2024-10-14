@@ -1,0 +1,18 @@
+{% if type == "router_core" %}
+interface gi 0/0
+ no ip split-horizon eigrp 100
+!
+router eigrp 100
+ network 10.0.0.0
+
+{% elif type == 'router_edge' %}
+router eigrp 100
+ network 10.0.0.0
+  
+{% else %} {# item.value.type == 'switch' #}
+ip routing
+!
+router eigrp 100
+ network 10.0.0.0
+
+{% endif %}
