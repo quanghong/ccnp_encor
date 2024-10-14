@@ -135,13 +135,14 @@ VRF info: (vrf in name/id, vrf out name/id)
 
 ## Enable SSH
 **Enable password encryption**
-> service password-encryption
+```service password-encryption```
 
 **Setting enable password**
-> enable password "key-string"
+```enable password "key-string"```
 
 **Enable SSH with secret**
-> ip ssh version 2
+```bash
+ip ssh version 2
 username cisco privilege 15 secret "key-string"
 !
 line console 0
@@ -151,6 +152,7 @@ line vty 0 4
  login local
  transport input all
 !
+```
 
 ## Configure EIGRP and EIGRP Security
 Configure all interface loopback in EIGRP for management.
