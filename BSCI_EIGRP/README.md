@@ -157,5 +157,5 @@ line vty 0 4
 ## Configure EIGRP and EIGRP Security
 Configure all interface loopback in EIGRP for management.
 **Enable EIGRP Security with correct flow**
-For not interrupting the connection from Ubuntu Server to all devices. We have to configure with flow managment.
+For not interrupting the connection from Ubuntu Server to all devices. We have to configure each device with flow management.
 > R5 --- R2 --- R1 --- R4 --- SW1 --- SW4 --- SW2 --- SW3
