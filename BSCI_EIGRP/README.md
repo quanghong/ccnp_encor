@@ -159,3 +159,12 @@ Configure all interface loopback in EIGRP for management.
 **Enable EIGRP Security with correct flow**
 For not interrupting the connection from Ubuntu Server to all devices. We have to configure each device with flow management.
 > R5 --- R2 --- R1 --- R4 --- SW1 --- SW4 --- SW2 --- SW3
+
+## EIGRP Convergence Optimization
+EIGRP calculate metrics of routes to advertise, which is based on five K values. We can see R2, R5 learnt best route with two nexthop, to R1 or R4.
+By default, EIGRP uses K1 and K3. We adjust Delay value (K3)
+```bash
+#R2
+int gi 0/1
+  delay 4000
+```

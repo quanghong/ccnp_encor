@@ -94,7 +94,7 @@ def verify_eigrp_routes(dev):
     dev['verbose'] = True
     del dev['name']
     del dev['type']
-    dev['session_log'] = './solution/{}.log'.format(dev['ip'])
+    dev['session_log'] = './log/{}.log'.format(dev['ip'])
     dev['session_log_file_mode'] = 'append'
     pprint(dev)
 
@@ -105,11 +105,43 @@ def verify_eigrp_routes(dev):
     connection.disconnect()
 
     print('ip={}, routes={}'.format(dev['ip'], pformat(routes)))
-    backup_json(routes, './solution/{}.json'.format(dev['ip']))
+    backup_json(routes, './log/{}.json'.format(dev['ip']))
+
+def configure_eigrp_convergence_optimization(dev):
+    dev['username'] = USERNAME
+    dev['password'] = PASSWORD
+    dev['device_type'] = 'cisco_ios'
+
+    jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    jj_template = jj_env.get_template('eigrp_convergence_optimization.j2')
+    commands = jj_template.render(dev).splitlines()
+    print('ip={}, commands={}'.format(dev['ip'], pformat(commands)))
+
+    # Create a socket object
+    source_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Bind the socket to the source IP and any available port (port 0 lets the OS pick the port)
+    source_socket.bind((EVE_NG_IP_HOST_ONLY, 0))
+    source_socket.connect((dev['ip'], 22))
+    dev['sock'] = source_socket
+    dev['verbose'] = True
+    del dev['name']
+    del dev['type']
+    dev['session_log'] = './log/{}.log'.format(dev['ip'])
+    dev['session_log_file_mode'] = 'append'
+    pprint(dev)
+
+    # Connect
+    connection = ConnectHandler(**dev)
+    connection.enable()
+    output = connection.send_config_set(commands)
+    connection.save_config()
+    connection.disconnect()
+
+    print('ip={}, output={}'.format(dev['ip'], pformat(output)))
 
 
 def main():
-    '''Basic EIGRP'''
+    # '''Basic EIGRP'''
     # configure_basic_eigrp(eigrp_devices[1])
 
     # threads = []
@@ -120,17 +152,22 @@ def main():
     # for t in threads:
     #     t.join()
 
-    '''EIGRP Security'''
-    for dev in eigrp_devices:
-        try:
-            configure_eigrp_security(dev)
-        except Exception as exc:
-            print(traceback.format_exc())
-            pass
+    # '''EIGRP Security'''
+    # for dev in eigrp_devices:
+    #     try:
+    #         configure_eigrp_security(dev)
+    #     except Exception as exc:
+    #         print(traceback.format_exc())
+    #         pass
     
-    for dev in eigrp_devices:
-        verify_eigrp_routes(dev)
+    # '''Verify EIGRP routes'''
+    # for dev in eigrp_devices:
+    #     verify_eigrp_routes(dev)
 
+    '''EIGRP Convergence Optimization'''
+    for dev in eigrp_devices:
+        if dev['type'] not in ['router_core', 'router_edge']: continue
+        configure_eigrp_convergence_optimization(dev)
 
 
 if __name__ == '__main__':

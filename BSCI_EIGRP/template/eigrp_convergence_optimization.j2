@@ -1,0 +1,23 @@
+{% if name in ['R2', 'R5'] %}
+    interface range gi 0/1 - 2
+    ip hello-interval eigrp 100 1
+    ip hold-time eigrp 100 3
+
+    {% if name == 'R2' %}
+        int gi 0/2
+         delay 4000
+    {% elif name == 'R5' %}
+        int gi 0/1
+         delay 4000
+    {% else %}
+    !
+    {% endif %}
+
+{% elif name in ['R1', 'R4'] %}
+    interface gi 0/0
+    ip hello-interval eigrp 100 1
+    ip hold-time eigrp 100 3
+
+{% else %}
+!
+{% endif %}
