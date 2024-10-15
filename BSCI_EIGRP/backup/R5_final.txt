@@ -1,12 +1,16 @@
-
+[OK]
+R5#!
+R5#
 R5#en
 R5#show run
 Building configuration...
 
   
-Current configuration : 4226 bytes
+*Oct 15 19:44:39.280: %GRUB-5-CONFIG_WRITING: GRUB configuration is being updated on disk. Please wait...
+*Oct 15 19:44:40.132: %GRUB-5-CONFIG_WRITTEN: GRUB configuration was written to disk successfully.
+Current configuration : 5438 bytes
 !
-! Last configuration change at 08:40:05 UTC Sun Oct 13 2024 by cisco
+! Last configuration change at 19:44:36 UTC Tue Oct 15 2024 by cisco
 !
 version 15.9
 service timestamps debug datetime msec
@@ -53,7 +57,7 @@ key chain EIGRP
   key-string DBMI_EIGRP
 !
 !
-username cisco privilege 15 secret 9 $9$xET/kBcwKlUC89$kb6DbW0816WmPLjAlBjDyDrGTFbXSPtiu9HkA9ROnYE
+username cisco privilege 15 secret 9 $9$jv/2lWhc6Id0nf$tJV36Dgj1HZ4/tZL8SVXGdl1ktaiojKOEVusrz/nJeY
 !
 redundancy
 !
@@ -96,10 +100,49 @@ interface Tunnel1
 !
 interface GigabitEthernet0/0
  no ip address
- shutdown
  duplex auto
  speed auto
  media-type rj45
+!
+interface GigabitEthernet0/0.500
+ encapsulation dot1Q 500
+ ip address 10.50.0.5 255.255.255.0
+!
+interface GigabitEthernet0/0.501
+ encapsulation dot1Q 501
+ ip address 10.50.1.5 255.255.255.0
+ ip summary-address eigrp 100 10.50.0.0 255.255.0.0
+ ip summary-address eigrp 100 10.50.0.0 255.255.252.0
+!
+interface GigabitEthernet0/0.502
+ encapsulation dot1Q 502
+ ip address 10.50.2.5 255.255.255.0
+ ip summary-address eigrp 100 10.50.0.0 255.255.0.0
+ ip summary-address eigrp 100 10.50.0.0 255.255.252.0
+!
+interface GigabitEthernet0/0.503
+ encapsulation dot1Q 503
+ ip address 10.50.3.5 255.255.255.0
+ ip summary-address eigrp 100 10.50.0.0 255.255.0.0
+ ip summary-address eigrp 100 10.50.0.0 255.255.252.0
+!
+interface GigabitEthernet0/0.504
+ encapsulation dot1Q 504
+ ip address 10.50.4.5 255.255.255.0
+ ip summary-address eigrp 100 10.50.0.0 255.255.0.0
+ ip summary-address eigrp 100 10.50.0.0 255.255.252.0
+!
+interface GigabitEthernet0/0.505
+ encapsulation dot1Q 505
+ ip address 10.50.5.5 255.255.255.0
+!
+interface GigabitEthernet0/0.506
+ encapsulation dot1Q 506
+ ip address 10.50.6.5 255.255.255.0
+!
+interface GigabitEthernet0/0.507
+ encapsulation dot1Q 507
+ ip address 10.50.7.5 255.255.255.0
 !
 interface GigabitEthernet0/1
  ip address 10.0.0.5 255.255.255.248
@@ -135,6 +178,7 @@ router eigrp 100
  passive-interface default
  no passive-interface GigabitEthernet0/1
  no passive-interface GigabitEthernet0/2
+ eigrp stub connected summary
 !
 ip forward-protocol nd
 !
@@ -187,4 +231,3 @@ line vty 0 4
 no scheduler allocate
 !
 end
-

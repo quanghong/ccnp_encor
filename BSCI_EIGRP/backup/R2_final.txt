@@ -1,12 +1,16 @@
-
+[OK]
+R2#!
+R2#
 R2#en
 R2#show run
 Building configuration...
 
   
-Current configuration : 4226 bytes
+*Oct 15 19:44:41.548: %GRUB-5-CONFIG_WRITING: GRUB configuration is being updated on disk. Please wait...
+*Oct 15 19:44:42.466: %GRUB-5-CONFIG_WRITTEN: GRUB configuration was written to disk successfully.
+Current configuration : 4816 bytes
 !
-! Last configuration change at 09:59:29 UTC Sun Oct 13 2024 by cisco
+! Last configuration change at 19:44:36 UTC Tue Oct 15 2024 by cisco
 !
 version 15.9
 service timestamps debug datetime msec
@@ -53,7 +57,7 @@ key chain EIGRP
   key-string DBMI_EIGRP
 !
 !
-username cisco privilege 15 secret 9 $9$1AeBh1.eS//ViP$41oIZjqKnb/9UMt9CgFZjPsXiAioFP./Vf5/sksgfh.
+username cisco privilege 15 secret 9 $9$XXsMWNHVcvBBJv$TnlIu8Aaij9gn4yrsQ6piBiYSukrE0iIQlZLgncBOSA
 !
 redundancy
 !
@@ -96,10 +100,29 @@ interface Tunnel1
 !
 interface GigabitEthernet0/0
  no ip address
- shutdown
  duplex auto
  speed auto
  media-type rj45
+!
+interface GigabitEthernet0/0.200
+ encapsulation dot1Q 200
+ ip address 10.20.0.2 255.255.255.0
+!
+interface GigabitEthernet0/0.201
+ encapsulation dot1Q 201
+ ip address 10.20.1.2 255.255.255.0
+!
+interface GigabitEthernet0/0.202
+ encapsulation dot1Q 202
+ ip address 10.20.2.2 255.255.255.0
+!
+interface GigabitEthernet0/0.501
+ ip summary-address eigrp 100 10.20.0.0 255.255.0.0
+ ip summary-address eigrp 100 10.20.0.0 255.255.248.0
+!
+interface GigabitEthernet0/0.502
+ ip summary-address eigrp 100 10.20.0.0 255.255.0.0
+ ip summary-address eigrp 100 10.20.0.0 255.255.248.0
 !
 interface GigabitEthernet0/1
  ip address 10.0.0.2 255.255.255.248
@@ -135,6 +158,7 @@ router eigrp 100
  passive-interface default
  no passive-interface GigabitEthernet0/1
  no passive-interface GigabitEthernet0/2
+ eigrp stub connected summary
 !
 ip forward-protocol nd
 !
@@ -187,4 +211,3 @@ line vty 0 4
 no scheduler allocate
 !
 end
-

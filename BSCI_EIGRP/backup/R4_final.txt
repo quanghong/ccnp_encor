@@ -1,12 +1,16 @@
-
+[OK]
+R4#!
+R4#
 R4#en
 R4#show run
 Building configuration...
 
   
-Current configuration : 3775 bytes
+*Oct 15 19:44:41.046: %GRUB-5-CONFIG_WRITING: GRUB configuration is being updated on disk. Please wait...
+*Oct 15 19:44:41.911: %GRUB-5-CONFIG_WRITTEN: GRUB configuration was written to disk successfully.
+Current configuration : 3823 bytes
 !
-! Last configuration change at 10:44:15 UTC Sun Oct 13 2024 by cisco
+! Last configuration change at 19:44:38 UTC Tue Oct 15 2024 by cisco
 !
 version 15.9
 service timestamps debug datetime msec
@@ -53,7 +57,7 @@ key chain EIGRP
   key-string DBMI_EIGRP
 !
 !
-username cisco privilege 15 secret 9 $9$VvvFpzxaxEpYGf$e0pRzQAaRanSSOZaf8lW6AHafvuf9TCCDEATFJaolG2
+username cisco privilege 15 secret 9 $9$2Ut.vMOky9VyUv$RZBTLscpBOny1vvWsjBA2wPDUL.fNeVAU04ryfZJGhE
 !
 redundancy
 !
@@ -117,6 +121,7 @@ interface GigabitEthernet0/3
 !
 !
 router eigrp 100
+ network 0.0.0.0
  network 10.0.0.0
  neighbor 10.100.48.8 GigabitEthernet0/1
 !
@@ -125,6 +130,7 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 Null0
 ip ssh version 2
 !
 ipv6 ioam timestamp

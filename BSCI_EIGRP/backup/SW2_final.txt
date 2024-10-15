@@ -1,11 +1,16 @@
 
+*Oct 15 19:44:38.395: %SYS-5-CONFIG_I: Configured from console by cisco on consoleCompressed configuration from 4279 bytes to 2337 bytes[OK]
+SW2#!
+SW2#
 SW2#en
 SW2#show run
 Building configuration...
 
+*Oct 15 19:44:43.421: %GRUB-5-CONFIG_WRITING: GRUB configuration is being updated on disk. Please wait...
+*Oct 15 19:44:44.292: %GRUB-5-CONFIG_WRITTEN: GRUB configuration was written to disk successfully.
 Current configuration : 4279 bytes
 !
-! Last configuration change at 05:24:25 UTC Sun Oct 13 2024 by cisco
+! Last configuration change at 19:44:38 UTC Tue Oct 15 2024 by cisco
 !
 version 15.2
 service timestamps debug datetime msec
@@ -20,7 +25,7 @@ boot-end-marker
 !
 !
 !
-username cisco privilege 15 secret 5 $1$jFii$47JHzwJ0qIyRyRehH0Vn/0
+username cisco privilege 15 secret 5 $1$YHk9$ly2RBKPgnkitRU57QadsF0
 no aaa new-model
 !
 !
