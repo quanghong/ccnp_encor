@@ -66,7 +66,7 @@ def enable_ssh(dev):
 
 def main():
     # Load data from inventory
-    file_path = './{}/inventory.json'.format(PATH_CODE)
+    file_path = './{}/inventory/inventory.json'.format(PATH_CODE)
     data = restore_json(file_path)
     pprint(data)
 
