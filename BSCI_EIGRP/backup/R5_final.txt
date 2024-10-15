@@ -1,0 +1,190 @@
+
+R5#en
+R5#show run
+Building configuration...
+
+  
+Current configuration : 4226 bytes
+!
+! Last configuration change at 08:40:05 UTC Sun Oct 13 2024 by cisco
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R5
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name cisco.com
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+key chain EIGRP
+ key 1
+  key-string DBMI_EIGRP
+!
+!
+username cisco privilege 15 secret 9 $9$xET/kBcwKlUC89$kb6DbW0816WmPLjAlBjDyDrGTFbXSPtiu9HkA9ROnYE
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.255.255.5 255.255.255.255
+!
+interface Tunnel0
+ ip address 172.16.123.5 255.255.255.0
+ ip nhrp authentication DMVPN1
+ ip nhrp map multicast 10.0.0.1
+ ip nhrp map 172.16.123.1 10.0.0.1
+ ip nhrp network-id 1
+ ip nhrp nhs 172.16.123.1
+ tunnel source GigabitEthernet0/1
+ tunnel destination 10.0.0.1
+!
+interface Tunnel1
+ ip address 172.16.245.5 255.255.255.0
+ ip nhrp authentication DMVPN2
+ ip nhrp map multicast 10.0.0.9
+ ip nhrp map 172.16.245.4 10.0.0.9
+ ip nhrp network-id 2
+ ip nhrp nhs 172.16.245.4
+ tunnel source GigabitEthernet0/2
+ tunnel destination 10.0.0.9
+!
+interface GigabitEthernet0/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.0.0.5 255.255.255.248
+ ip authentication mode eigrp 100 md5
+ ip authentication key-chain eigrp 100 EIGRP
+ ip hello-interval eigrp 100 1
+ ip hold-time eigrp 100 3
+ delay 4000
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 10.0.0.13 255.255.255.248
+ ip authentication mode eigrp 100 md5
+ ip authentication key-chain eigrp 100 EIGRP
+ ip hello-interval eigrp 100 1
+ ip hold-time eigrp 100 3
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+!
+router eigrp 100
+ network 10.0.0.0
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh version 2
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ login local
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+!
+no scheduler allocate
+!
+end
+

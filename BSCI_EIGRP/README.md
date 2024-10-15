@@ -161,10 +161,51 @@ For not interrupting the connection from Ubuntu Server to all devices. We have t
 > R5 --- R2 --- R1 --- R4 --- SW1 --- SW4 --- SW2 --- SW3
 
 ## EIGRP Convergence Optimization
-EIGRP calculate metrics of routes to advertise, which is based on five K values. We can see R2, R5 learnt best route with two nexthop, to R1 or R4.
-By default, EIGRP uses K1 and K3. We adjust Delay value (K3)
+EIGRP calculate metrics of routes to advertise by intended <b>primary path</b>, which is based on five K values. We can see R2, R5 learnt best route with two nexthop, to R1 or R4.
+By default, EIGRP uses K1 and K3. We adjust Delay value (K3).
 ```bash
 #R2
 int gi 0/1
   delay 4000
 ```
+Also, we can configure Hello timer and Hold timer to <b>converge faster</b> in case link down.
+```bash
+R1(config)#int gi 0/0
+R1(config-if)#shut
+
+R2# ping 10.100.10.10 repeat 10000
+!!..!!!
+```
+
+## EIGRP Load-Balancing
+As we can see in SW3, SW4 see routes from remote sites with 2 path, to R1 and R4 as a same FD. We want to load traffic more on port-channel because we have more bandwidth on it.
+```bash
+#SW3, SW4 show ip route eigrp
+D        10.255.255.2/32 
+           [90/131328] via 10.100.89.8, 00:05:45, GigabitEthernet0/2
+           [90/131328] via 10.100.79.7, 00:05:45, Port-channel13
+D        10.255.255.5/32 
+           [90/131328] via 10.100.89.8, 00:05:45, GigabitEthernet0/2
+           [90/131328] via 10.100.79.7, 00:05:45, Port-channel13
+
+#SW3, SW4 show ip eigrp topology. 10.255.255.2/32 learnt from SW1, SW2 with same FD. FD = AD + cost./ 131328 = 131072 + 256.
+# !!! So, we configure variance on SW3 and SW4 to load more traffic on preferred interface !!!
+P 10.255.255.2/32, 2 successors, FD is 131328
+        via 10.100.79.7 (131328/131072), Port-channel13
+        via 10.100.89.8 (131328/131072), GigabitEthernet0/2
+
+#SW1 calculate FD to 10.255.255.2/32 = 131072, with FD = AD + cost./ 131072 = 130816 + 256.
+#SW1 advertise 10.255.255.2/32 to SW1 with Advertised Distance (AD) = 130816
+P 10.255.255.2/32, 1 successors, FD is 131072
+        via 10.100.17.1 (131072/130816), GigabitEthernet1/1
+        
+#R1 calculate FD to 10.255.255.2/32 = 130816, with FD = AD + cost./ 131072 = 128256 + 2560.
+#R1 advertise 10.255.255.2/32 to SW1 with Advertised Distance (AD) = 130816
+P 10.255.255.2/32, 1 successors, FD is 130816
+        via 10.0.0.2 (130816/128256), GigabitEthernet0/0
+
+#R2 advertise 10.255.255.2/32 to R1 with Advertised Distance (AD) = 128256. Which is equal Feasible Distance (FD) because the route learnt from conected interface.
+P 10.255.255.2/32, 1 successors, FD is 128256
+        via Connected, Loopback
+```
+
