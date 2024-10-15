@@ -209,3 +209,7 @@ P 10.255.255.2/32, 1 successors, FD is 128256
         via Connected, Loopback
 ```
 
+## EIGRP Default route
+To discard unknown traffic from network, we can create null route to advertise into network. Advertise default route as null route.
+## EIGRP Stub network.
+When we only want to advertise connected network.
