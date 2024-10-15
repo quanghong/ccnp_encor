@@ -1,0 +1,65 @@
+hostname SW3
+vtp mode transparent
+!
+spanning-tree mode pvst
+!
+username cisco privilege 15 secret 5 $1$nJA/$ZJhxr4h3.4WFT32gu0pm7.
+!
+vlan 9 
+!
+interface Loopback0
+ ip address 10.255.255.9 255.255.255.255
+!
+interface Port-channel13
+ no switchport
+ ip address 10.100.79.9 255.255.255.0
+!
+interface GigabitEthernet0/0
+ no switchport
+ no ip address
+ negotiation auto
+ channel-group 13 mode active
+!
+interface GigabitEthernet0/1
+ no switchport
+ no ip address
+ negotiation auto
+ channel-group 13 mode active
+!
+interface GigabitEthernet0/2
+ no switchport
+ ip address 10.100.89.9 255.255.255.0
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ shutdown
+ negotiation auto
+!
+interface Vlan9
+ ip address 10.100.9.9 255.255.255.0
+!
+line con 0
+ login local
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+!
+!
+end
