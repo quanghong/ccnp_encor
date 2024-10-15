@@ -1,0 +1,11 @@
+- name: Back Up IOS Device Configurations
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: backup
+      ios_config:
+        backup: yes
+        # dest: "/backup/{{ inventory_hostname }}_config.txt"
+        backup_options:
+          filename: "{{ inventory_hostname }}.cfg"
+          dir_path: "./backup"
