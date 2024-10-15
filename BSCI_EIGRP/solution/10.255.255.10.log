@@ -1,0 +1,56 @@
+
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.********.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+SW4#
+SW4#terminal width 511
+SW4#terminal length 0
+SW4#
+SW4#
+SW4#
+SW4#show ip route eigrp
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is not set
+
+      10.0.0.0/8 is variably subnetted, 19 subnets, 3 masks
+D        10.0.0.0/29 [90/3328] via 10.100.107.7, 00:22:16, GigabitEthernet0/1
+D        10.0.0.8/29 [90/3328] via 10.100.108.8, 00:22:16, Port-channel24
+D        10.100.17.0/24 
+           [90/3072] via 10.100.107.7, 00:22:16, GigabitEthernet0/1
+D        10.100.48.0/24 [90/3072] via 10.100.108.8, 00:22:16, Port-channel24
+D        10.100.78.0/24 [90/1792] via 10.100.108.8, 00:22:16, Port-channel24
+D        10.100.79.0/24 [90/2048] via 10.100.108.8, 00:22:16, Port-channel24
+D        10.100.89.0/24 [90/3072] via 10.100.108.8, 00:22:16, Port-channel24
+D        10.255.255.1/32 
+           [90/131072] via 10.100.107.7, 00:22:16, GigabitEthernet0/1
+D        10.255.255.2/32 
+           [90/131328] via 10.100.108.8, 00:22:16, Port-channel24
+           [90/131328] via 10.100.107.7, 00:22:16, GigabitEthernet0/1
+D        10.255.255.4/32 
+           [90/131072] via 10.100.108.8, 00:22:16, Port-channel24
+D        10.255.255.5/32 
+           [90/131328] via 10.100.108.8, 00:22:16, Port-channel24
+           [90/131328] via 10.100.107.7, 00:22:16, GigabitEthernet0/1
+D        10.255.255.7/32 
+           [90/129792] via 10.100.108.8, 00:22:16, Port-channel24
+D        10.255.255.8/32 
+           [90/129536] via 10.100.108.8, 00:22:16, Port-channel24
+D        10.255.255.9/32 
+           [90/130048] via 10.100.108.8, 00:22:16, Port-channel24
+D     192.168.20.0/24 [90/3328] via 10.100.108.8, 00:22:16, Port-channel24
+                      [90/3328] via 10.100.107.7, 00:22:16, GigabitEthernet0/1
+SW4#
+SW4#exit
