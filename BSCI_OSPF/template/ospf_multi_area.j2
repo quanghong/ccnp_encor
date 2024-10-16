@@ -1,0 +1,84 @@
+{% if type == "router_core" %}
+    {% if name == 'R1' %}
+    router ospf 100
+    network 172.16.123.1 255.255.255.255 area 1245
+    end
+    !
+    {% elif name == 'R4' %}
+    router ospf 100
+    network 172.16.245.4 255.255.255.255 area 1245
+    end
+    !
+    {% else %}
+    !
+    {% endif %}
+
+{% elif type == 'router_edge' %}
+    {% if name == 'R2' %}
+    router ospf 100
+    network 10.255.255.2 255.255.255.255 area 1245
+    network 172.16.123.2 255.255.255.255 area 1245
+    network 172.16.245.2 255.255.255.255 area 1245
+    end
+    !
+    {% elif name == 'R5' %}
+    router ospf 100
+    network 10.255.255.5 255.255.255.255 area 1245
+    network 172.16.123.5 255.255.255.255 area 1245
+    network 172.16.245.5 255.255.255.255 area 1245
+    end
+    !
+    {% else %}
+    !
+    {% endif %}
+
+{% elif type == 'switch' %}
+    {% if name == 'SW1' %}
+    router ospf 100
+    network 10.255.255.7 255.255.255.255 area 0
+    network 10.100.17.0 0.0.0.255 area 0
+    network 10.100.78.0 0.0.0.255 area 0
+    network 10.100.7.0 0.0.0.255 area 0
+    !
+    network 10.100.79.0 0.0.0.255 area 789
+    !
+    no network 0.0.0.0 255.255.255.255 area 0
+    end
+    !
+    {% elif name == 'SW4' %}
+    router ospf 100
+    network 10.255.255.10 0.0.0.0 area 7810
+    network 10.100.107.0 0.0.0.255 area 7810
+    network 10.100.108.0 0.0.0.255 area 7810
+    !
+    no network 0.0.0.0 255.255.255.255 area 0
+    end
+    !
+    {% elif name == 'SW2' %}
+    router ospf 100
+    network 10.255.255.8 255.255.255.255 area 0
+    network 10.100.48.0 0.0.0.255 area 0
+    network 10.100.78.0 0.0.0.255 area 0
+    network 10.100.8.0 0.0.0.255 area 0
+    !
+    network 10.100.108.0 0.0.0.255 area 7810
+    !
+    no network 0.0.0.0 255.255.255.255 area 0
+    end
+    !
+    {% elif name == 'SW3' %}
+    router ospf 100
+    network 10.255.255.9 0.0.0.0 area 789
+    network 10.100.79.0 0.0.0.255 area 789
+    network 10.100.89.0 0.0.0.255 area 789
+    network 192.168.20.0 0.0.0.255 area 789
+    !
+    no network 0.0.0.0 255.255.255.255 area 0
+    end
+    !
+    {% else %}
+    !
+    {% endif %}
+{% else %} 
+!
+{% endif %}
