@@ -17,25 +17,28 @@ devices_inv = restore_json(os.getenv('INVENTORY_DIR') + 'inventory.json')
 pprint(devices_inv)
 
 def enable_ssh(dev):
-    data = {
-        'username': USERNAME,
-        'password': PASSWORD
-    }
+    dev['username'] = USERNAME
+    dev['password'] = PASSWORD
+
     jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
     jj_template = jj_env.get_template('enable_ssh.j2')
-    commands = jj_template.render(data)
-    # pprint(commands.splitlines())
+    commands = jj_template.render(dev).splitlines()
+    print('name={}, commands={}'.format(dev['name'], pformat(commands)))
 
+    # Connect
     session = TELNET(host=dev['host'], username=dev['username'], password=dev['password'], port=dev['port'])
     connection = session.connect()
     print(connection, pformat(dev))
 
-    for cmd in commands.splitlines():
+    config = ""
+    for cmd in commands:
         cmd += "\n"
         connection.write(cmd.encode('ascii'))
         time.sleep(0.5)
+        config += connection.read_until(b"#", timeout=10).decode()
 
-    session.disconnect()
+    connection.close()
+    print('name={}, config={}'.format(dev['name'], pformat(config)))
 
 def configure_basic_ospf(dev):
     dev['username'] = USERNAME
@@ -65,17 +68,17 @@ def configure_basic_ospf(dev):
     connection.write(b"end\n")
     connection.write(b"wr mem\n")
     connection.close()
-    print('name={}, routes={}'.format(dev['name'], pformat(config)))
+    print('name={}, config={}'.format(dev['name'], pformat(config)))
 
 def main():
     '''Enable SSH'''
-    # threads = []
-    # for dev in devices_inv:
-    #     t = Thread(target=enable_ssh, args= (dev,))
-    #     t.start()
-    #     threads.append(t)
-    # for t in threads:
-    #     t.join()
+    threads = []
+    for dev in devices_inv:
+        t = Thread(target=enable_ssh, args= (dev,))
+        t.start()
+        threads.append(t)
+    for t in threads:
+        t.join()
 
     '''Basic EIGRP'''
 
