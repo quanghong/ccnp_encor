@@ -67,7 +67,7 @@ def configure_basic_ospf(dev):
     connection.write(b"end\n")
     connection.write(b"wr mem\n")
     connection.close()
-    print('ip={}, routes={}'.format(dev['host'], pformat(config)))
+    print('name={}, routes={}'.format(dev['name'], pformat(config)))
 
 def main():
     '''Enable SSH'''
