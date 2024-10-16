@@ -1,0 +1,28 @@
+{% if type == "router_core" %}
+router ospf 100
+ network 0.0.0.0 255.255.255.255 area 0
+    {% if name == 'R1' %}
+    neighbor 10.0.0.2
+    neighbor 10.0.0.5
+    {% elif name == 'R4' %}
+    neighbor 10.0.0.10
+    neighbor 10.0.0.13
+    {% else %}
+    !
+    {% endif %}
+
+{% elif type == 'router_edge' %}
+router ospf 100
+ network 0.0.0.0 255.255.255.255 area 0
+!
+int range gi 0/1 - 2
+ip ospf network non-broadcast
+ip ospf pri 0
+
+{% else %} {# item.value.type == 'switch' #}
+ip routing
+!
+router ospf 100
+ network 0.0.0.0 255.255.255.255 area 0
+!
+{% endif %}
