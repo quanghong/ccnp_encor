@@ -3,75 +3,59 @@
         "name": "R2",
         "host": "192.168.116.142",
         "port": 32770,
-        "username": null,
-        "password": null,
         "type": "router_edge",
-        "ip": "10.10.13.1"
+        "device_type": "cisco_ios"
     },
     {
         "name": "R5",
         "host": "192.168.116.142",
         "port": 32773,
-        "username": null,
-        "password": null,
         "type": "router_edge",
-        "ip": "192.168.20.137"
+        "device_type": "cisco_ios"
     },
 
     {
         "name": "R4",
         "host": "192.168.116.142",
         "port": 32769,
-        "username": null,
-        "password": null,
         "type": "router_core",
-        "ip": "10.20.25.5"
+        "device_type": "cisco_ios"
     },
     {
         "name": "R1",
         "host": "192.168.116.142",
         "port": 32771,
-        "username": null,
-        "password": null,
         "type": "router_core",
-        "ip": null
+        "device_type": "cisco_ios"
     },
 
     {
         "name": "SW1",
         "host": "192.168.116.142",
         "port": 32775,
-        "username": null,
-        "password": null,
         "type": "switch",
-        "ip": null
+        "device_type": "cisco_ios"
     },
     {
         "name": "SW2",
         "host": "192.168.116.142",
         "port": 32776,
-        "username": null,
-        "password": null,
         "type": "switch",
-        "ip": "10.10.13.3"
+        "device_type": "cisco_ios"
     },
 
     {
         "name": "SW3",
         "host": "192.168.116.142",
         "port": 32772,
-        "username": null,
-        "password": null,
         "type": "switch",
-        "ip": null
+        "device_type": "cisco_ios"
     },
     {
         "name": "SW4",
         "host": "192.168.116.142",
         "port": 32777,
-        "username": null,
-        "password": null,
         "type": "switch",
-        "ip": "10.50.46.4"
+        "device_type": "cisco_ios"
     }
 ]

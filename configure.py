@@ -1,12 +1,11 @@
 import json, os, time, re, socket, traceback
 from pprint import pprint, pformat
 from threading import Thread
-
-from lib.telnet import TELNET
-from netmiko import ConnectHandler
-from feature import *
-from jinja2 import FileSystemLoader, Environment
 from dotenv import load_dotenv
+from jinja2 import FileSystemLoader, Environment
+
+from feature import *
+from lib.telnet import TELNET
 
 load_dotenv()
 EVE_NG_IP_HOST_ONLY = os.getenv('EVE_NG_IP_HOST_ONLY')
@@ -41,7 +40,6 @@ def enable_ssh(dev):
 def configure_basic_ospf(dev):
     dev['username'] = USERNAME
     dev['password'] = PASSWORD
-    dev['device_type'] = 'cisco_ios'
 
     jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
     jj_template = jj_env.get_template('basic_ospf.j2')
