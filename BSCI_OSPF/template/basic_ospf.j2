@@ -47,6 +47,7 @@ exit
     router ospf 100
     neighbor 172.16.123.1
     neighbor 172.16.245.4
+    network 10.255.255.2 255.255.255.255 area 1
     network 172.16.123.2 255.255.255.255 area 1
     network 172.16.245.2 255.255.255.255 area 1
     exit
@@ -55,6 +56,7 @@ exit
     router ospf 100
     neighbor 172.16.123.1
     neighbor 172.16.245.4
+    network 10.255.255.5 255.255.255.255 area 1
     network 172.16.123.5 255.255.255.255 area 1
     network 172.16.245.5 255.255.255.255 area 1
     exit

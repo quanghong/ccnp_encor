@@ -3,59 +3,51 @@
         "name": "R2",
         "host": "192.168.116.142",
         "port": 32770,
-        "type": "router_edge",
-        "device_type": "cisco_ios"
+        "type": "router_edge"
     },
     {
         "name": "R5",
         "host": "192.168.116.142",
         "port": 32773,
-        "type": "router_edge",
-        "device_type": "cisco_ios"
+        "type": "router_edge"
     },
 
     {
         "name": "R4",
         "host": "192.168.116.142",
         "port": 32769,
-        "type": "router_core",
-        "device_type": "cisco_ios"
+        "type": "router_core"
     },
     {
         "name": "R1",
         "host": "192.168.116.142",
         "port": 32771,
-        "type": "router_core",
-        "device_type": "cisco_ios"
+        "type": "router_core"
     },
 
     {
         "name": "SW1",
         "host": "192.168.116.142",
         "port": 32775,
-        "type": "switch",
-        "device_type": "cisco_ios"
+        "type": "switch"
     },
     {
         "name": "SW2",
         "host": "192.168.116.142",
         "port": 32776,
-        "type": "switch",
-        "device_type": "cisco_ios"
+        "type": "switch"
     },
 
     {
         "name": "SW3",
         "host": "192.168.116.142",
         "port": 32772,
-        "type": "switch",
-        "device_type": "cisco_ios"
+        "type": "switch"
     },
     {
         "name": "SW4",
         "host": "192.168.116.142",
         "port": 32777,
-        "type": "switch",
-        "device_type": "cisco_ios"
+        "type": "switch"
     }
 ]
