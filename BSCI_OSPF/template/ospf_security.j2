@@ -54,6 +54,7 @@ int range tun 0 - 1
     no passive-interface po 12
     no passive-interface gi 1/0
     no passive-interface gi 1/1
+    no passive-interface vlan 7
     !
     int range gi 1/0, po 12, po 13, gi 1/1
     ip ospf authentication message-digest 
@@ -64,6 +65,7 @@ int range tun 0 - 1
     passive-interface default
     no passive-interface po 24
     no passive-interface gi 0/1
+    no passive-interface vlan 10
     !
     int range gi 0/1, po 24
     ip ospf authentication message-digest 
@@ -76,6 +78,7 @@ int range tun 0 - 1
     no passive-interface po 12
     no passive-interface po 24
     no passive-interface gi 1/1
+    no passive-interface vlan 8
     !
     int range  po 12, po 24, gi 0/3, gi 1/1 {# interface connection in final #}
     ip ospf authentication message-digest 
@@ -87,6 +90,7 @@ int range tun 0 - 1
     no passive-interface gi 1/3 {# interface management in first #}
     no passive-interface po 13
     no passive-interface gi 0/2
+    no passive-interface vlan 9
     !
     int range gi 1/3, po 13, gi 0/2
     ip ospf authentication message-digest 
