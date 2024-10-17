@@ -175,7 +175,65 @@ def configure_ospf_redundancy(dev):
     print('ip={}, neighbors={}'.format(dev['ip'], pformat(neighbors)))
     print('ip={}, routes={}'.format(dev['ip'], pformat(routes)))
 
+def configure_ospf_path_selection(dev):
+    dev['username'] = USERNAME
+    dev['password'] = PASSWORD
 
+    jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    jj_template = jj_env.get_template('ospf_path_selection.j2')
+    commands = jj_template.render(dev).splitlines()
+    print('name={}, commands={}'.format(dev['name'], pformat(commands)))
+
+    # Create a socket object
+    source_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Bind the socket to the source IP and any available port (port 0 lets the OS pick the port)
+    source_socket.bind((EVE_NG_IP_HOST_ONLY, 0))
+    source_socket.connect((dev['ip'], 22))
+    dev['sock'] = source_socket
+    dev['verbose'] = True
+    del dev['name']
+    del dev['type']
+    dev['session_log'] = '{}/{}.log'.format(LOG_DIR, dev['ip'])
+    dev['session_log_file_mode'] = 'append'
+    pprint(dev)
+
+    # Connect
+    connection = ConnectHandler(**dev)
+    connection.enable()
+    
+    if dev['ip'] == '10.255.255.2': #R2
+        # before selection
+        connection.send_command('traceroute 10.100.8.8', use_textfsm=False)
+        connection.send_command('show ip ospf interface tun 0', use_textfsm=False)
+        connection.send_command('show ip ospf interface tun 1', use_textfsm=False)
+
+        connection.send_config_set(commands, read_timeout=10)
+        connection.save_config()
+
+        # after selection
+        connection.send_command('show ip ospf interface tun 0', use_textfsm=False)
+        connection.send_command('show ip ospf interface tun 1', use_textfsm=False)
+        # wait for a while to relearn routes
+        time.sleep(1)
+        connection.send_command('traceroute 10.100.8.8', use_textfsm=False)
+    
+    else: #R5
+        # before selection
+        connection.send_command('traceroute 10.100.7.7', use_textfsm=False)
+        connection.send_command('show ip ospf interface tun 0', use_textfsm=False)
+        connection.send_command('show ip ospf interface tun 1', use_textfsm=False)
+
+        connection.send_config_set(commands, read_timeout=10)
+        connection.save_config()
+
+        # after selection
+        connection.send_command('show ip ospf interface tun 0', use_textfsm=False)
+        connection.send_command('show ip ospf interface tun 1', use_textfsm=False)
+        # wait for a while to relearn routes
+        time.sleep(1)
+        connection.send_command('traceroute 10.100.7.7', use_textfsm=False)
+    
+    connection.disconnect()
 
 def main():
     '''OSPF Multi area'''
@@ -200,7 +258,7 @@ def main():
     #     except Exception as exc:
     #         print(traceback.format_exc())
 
-    # '''OSPF Security'''
+    '''OSPF Security'''
     # for dev in list_configure:
     #     try:
     #         configure_ospf_security(dev)
@@ -208,11 +266,20 @@ def main():
     #         print(traceback.format_exc())
 
     '''OSPF Security'''
-    list_configure_order = ['SW1', 'SW2']
+    # list_configure_order = ['SW1', 'SW2']
+    # list_configure = get_list_device_configure(devices_inv, list_configure_order)
+    # for dev in list_configure:
+    #     try:
+    #         configure_ospf_redundancy(dev)
+    #     except Exception as exc:
+    #         print(traceback.format_exc())
+
+    '''OSPF Path Selection'''
+    list_configure_order = ['R2', 'R5']
     list_configure = get_list_device_configure(devices_inv, list_configure_order)
     for dev in list_configure:
         try:
-            configure_ospf_redundancy(dev)
+            configure_ospf_path_selection(dev)
         except Exception as exc:
             print(traceback.format_exc())
 

@@ -1,0 +1,13 @@
+{% if name == 'R2' %}
+int tun 0
+ ip ospf cost 100
+ end
+!
+{% elif name == 'R5' %}
+int tun 1
+ ip ospf cost 100
+ end
+!
+{% else %} 
+!
+{% endif %}

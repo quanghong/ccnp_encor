@@ -188,3 +188,40 @@ VRF info: (vrf in name/id, vrf out name/id)
   1 10.100.108.10 3 msec 3 msec 3 msec
   2 10.100.107.7 9 msec *  5 msec
 ```
+
+## OSPF Path Selection
+By default, OSPF load balance traffic with equal cost path. To prefer a path than others, we configure cost on interface.
+```bash
+R2#show ip ospf interface tun 1
+Tunnel1 is up, line protocol is up 
+  Internet Address 172.16.245.2/24, Area 1245, Attached via Network Statement
+  Process ID 100, Router ID 10.255.255.2, Network Type POINT_TO_MULTIPOINT, Cost: 1000
+
+R2#show ip ospf interface tun 0
+Tunnel0 is up, line protocol is up 
+  Internet Address 172.16.123.2/24, Area 1245, Attached via Network Statement
+  Process ID 100, Router ID 10.255.255.2, Network Type POINT_TO_MULTIPOINT, Cost: 1000
+
+R2#traceroute 10.100.8.8
+Type escape sequence to abort.
+Tracing the route to 10.100.8.8
+VRF info: (vrf in name/id, vrf out name/id)
+  1 172.16.245.4 1 msec 4 msec 7 msec
+  2 10.100.48.8 4 msec *  3 msec
+```
+
+The <b>LOWER</b> cost path will be preferred.
+```bash
+R2#show ip ospf interface tun 0
+Tunnel0 is up, line protocol is up 
+  Internet Address 172.16.123.2/24, Area 1245, Attached via Network Statement
+  Process ID 100, Router ID 10.255.255.2, Network Type POINT_TO_MULTIPOINT, Cost: 100
+
+R2#traceroute 10.100.8.8
+Type escape sequence to abort.
+Tracing the route to 10.100.8.8
+VRF info: (vrf in name/id, vrf out name/id)
+  1 172.16.123.1 10 msec 8 msec 4 msec
+  2 10.100.17.7 9 msec 10 msec 8 msec
+  3 10.100.78.8 9 msec *  9 msec
+```
