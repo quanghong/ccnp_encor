@@ -84,3 +84,51 @@ Neighbor ID     Pri   State           Dead Time   Address         Interface
 *Oct 16 19:47:33.731: %OSPF-4-NET_TYPE_MISMATCH: Received Hello from 10.255.255.7 on GigabitEthernet0/1 indicating a  potential network type mismatch
 *Oct 16 19:48:40.655: %OSPF-5-ADJCHG: Process 100, Nbr 10.255.255.7 on GigabitEthernet0/1 from FULL to DOWN, Neighbor Down: Dead timer expired   
 ```
+
+
+## OSPF Optimization
+Because when we set <b><i>"passive-interface default"</i></b> command, it will be delete all existed <b><i>"no passive-interface "gi/tun"</i></b> in interface configuration. So we need to prioritize which interface should be configure fist or final. I noted in [ospf_security.j2](/BSCI_OSPF/template/ospf_security.j2)
+
+> Be careful, we will be lost connection while configuring when loss management connection.
+
+If we configure wrong authentication, routers will be on <b>EXSTART/  -</b> state.
+```bash
+*Oct 16 20:35:07.708: %OSPF-4-NOVALIDKEY: No valid authentication send key is available on interface Tunnel0
+
+R5#ping 10.0.0.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.0.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 5/6/8 ms
+R5#show ip ospf nei
+R5#show ip ospf neighbor
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+10.255.255.4      0   FULL/  -        843 msec    172.16.245.4    Tunnel1
+10.255.255.1      0   EXSTART/  -     787 msec    172.16.123.1    Tunnel0
+```
+
+**Check passive interfaces**
+```bash
+R2#show ip protocols 
+Routing Protocol is "ospf 100"
+  Passive Interface(s):
+    GigabitEthernet0/0
+    GigabitEthernet0/0.201
+    GigabitEthernet0/0.202
+    GigabitEthernet0/1
+    GigabitEthernet0/2
+    GigabitEthernet0/3
+    Loopback0
+    RG-AR-IF-INPUT1
+```
+
+**Check OSPF authentication interfaces**
+```bash
+R1#show ip ospf inter
+GigabitEthernet0/1 is up, line protocol is up 
+  Neighbor Count is 1, Adjacent neighbor count is 1 
+    Adjacent with neighbor 10.255.255.7
+  Suppress hello for 0 neighbor(s)
+  Cryptographic authentication enabled
+```

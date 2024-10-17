@@ -1,0 +1,101 @@
+{% if type == 'router_edge' %}
+router ospf 100
+ passive-interface default
+ no passive-interface tun 0 {# fast sending command to not to interrupt by command "passive-interface default" #}
+ no passive-interface tun 1 {# #}
+!
+int range tun 0 - 1
+ ip ospf authentication message-digest 
+ ip ospf message-digest-key 1 md5 DBMIMD5 {# should disconnect from this command #}
+!
+{% elif type == "router_core" %}
+    {% if name == 'R1' %}
+    router ospf 100
+    passive-interface default
+    no passive-interface gi 0/1
+    no passive-interface tun 0
+    !
+    int range tun 0, gi 0/1
+    ip ospf authentication message-digest 
+    ip ospf message-digest-key 1 md5 DBMIMD5
+    !
+    end
+    !
+    ping 10.0.0.2 {# ping physical interface for reachability, unless routers will be in EXSTART status #}
+    !
+    ping 10.0.0.5
+    !
+    {% elif name == 'R4' %}
+    router ospf 100
+    passive-interface default
+    no passive-interface gi 0/1
+    no passive-interface tun 1
+    !
+    int range tun 1, gi 0/1
+    ip ospf authentication message-digest 
+    ip ospf message-digest-key 1 md5 DBMIMD5
+    !
+    end
+    !
+    ping 10.0.0.10
+    !
+    ping 10.0.0.13
+    !
+    {% else %}
+    !
+    {% endif %}
+!
+
+{% elif type == 'switch' %}
+    {% if name == 'SW1' %}
+    router ospf 100
+    passive-interface default
+    no passive-interface po 13
+    no passive-interface po 12
+    no passive-interface gi 1/0
+    no passive-interface gi 1/1
+    !
+    int range gi 1/0, po 12, po 13, gi 1/1
+    ip ospf authentication message-digest 
+    ip ospf message-digest-key 1 md5 DBMIMD5
+    !
+    {% elif name == 'SW4' %}
+    router ospf 100
+    passive-interface default
+    no passive-interface po 24
+    no passive-interface gi 0/1
+    !
+    int range gi 0/1, po 24
+    ip ospf authentication message-digest 
+    ip ospf message-digest-key 1 md5 DBMIMD5
+    !
+    {% elif name == 'SW2' %}
+    router ospf 100
+    passive-interface default
+    no passive-interface gi 0/3
+    no passive-interface po 12
+    no passive-interface po 24
+    no passive-interface gi 1/1
+    !
+    int range  po 12, po 24, gi 0/3, gi 1/1 {# interface connection in final #}
+    ip ospf authentication message-digest 
+    ip ospf message-digest-key 1 md5 DBMIMD5
+    !
+    {% elif name == 'SW3' %}
+    router ospf 100
+    passive-interface default
+    no passive-interface gi 1/3 {# interface management in first #}
+    no passive-interface po 13
+    no passive-interface gi 0/2
+    !
+    int range gi 1/3, po 13, gi 0/2
+    ip ospf authentication message-digest 
+    ip ospf message-digest-key 1 md5 DBMIMD5
+    !  
+    {% else %} 
+    !
+    {% endif %}
+!
+{% else %} 
+!
+{% endif %}
