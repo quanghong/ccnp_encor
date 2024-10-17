@@ -20,3 +20,11 @@ def create_file(nameFile, pathFile, config):
     fl = open(x_file, 'w')
     fl.write(config)
     fl.close()
+
+def get_list_device_configure(devices_inv, list_configure_order):
+    list_configure = []
+    for name in list_configure_order:
+        for dev in devices_inv:
+            if dev['name'] == name:
+                list_configure.append(dev)
+    return list_configure

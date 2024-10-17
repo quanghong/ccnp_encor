@@ -132,3 +132,59 @@ GigabitEthernet0/1 is up, line protocol is up
   Suppress hello for 0 neighbor(s)
   Cryptographic authentication enabled
 ```
+
+## OSPF Redundancy
+In case, interfaces between SW1 and SW2 go down, routers will loose their neighbor and delete routes. We configure <b>virtual link</b> to keep neighbors and don't loose routes although traffic will go to another hop SW3/ SW4 to reach to vlan destination.
+```bash
+SW1(config)#int range gi 0/1 - 2, gi 1/2
+SW1(config-if-range)#shut
+
+SW1#ping 10.100.8.8
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.100.8.8, timeout is 2 seconds:
+.....
+SW1#show ip ospf neighbor 
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+10.255.255.1      0   FULL/  -        00:00:36    10.100.17.1     GigabitEthernet1/1
+10.255.255.8      0   FULL/  -        00:00:34    10.100.78.8     Port-channel12
+10.255.255.9      0   FULL/  -        00:00:37    10.100.79.9     Port-channel13
+10.255.255.10     0   FULL/  -        00:00:34    10.100.107.10   GigabitEthernet1/0
+```
+
+After configure a virtual link between SW1 and SW2.
+```bash
+SW1#show ip ospf neighbor 
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+10.255.255.8      0   FULL/  -        00:00:33    10.100.108.8    OSPF_VL0
+
+SW2#show ip ospf neighbor 
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+10.255.255.7      0   FULL/  -        00:00:37    10.100.107.7    OSPF_VL0
+
+SW1#ping 10.100.8.8       
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.100.8.8, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 3/6/9 ms
+```
+
+<b>Because interface Port-channel 12 is authenticated, so we have to configure authentication on virtual-link.</b>
+<b>And because we want traffic go to SW4 before go to R1 interface vlan 7, so we configure virtual-link on area 7810.</b>
+
+```bash
+SW2#show ip route 10.100.7.0
+Routing entry for 10.100.7.0/24
+  Known via "ospf 100", distance 110, metric 3, type intra area
+  Last update from 10.100.108.10 on Port-channel24, 00:01:43 ago
+  Routing Descriptor Blocks:
+  * 10.100.108.10, from 10.255.255.7, 00:01:43 ago, via Port-channel24
+      Route metric is 3, traffic share count is 1
+
+SW2#traceroute 10.100.7.7
+Type escape sequence to abort.
+Tracing the route to 10.100.7.7
+VRF info: (vrf in name/id, vrf out name/id)
+  1 10.100.108.10 3 msec 3 msec 3 msec
+  2 10.100.107.7 9 msec *  5 msec
+```

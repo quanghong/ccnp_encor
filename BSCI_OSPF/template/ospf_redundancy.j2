@@ -1,0 +1,11 @@
+{% if name == 'SW1' %}
+router ospf 100
+ area 7810 virtual-link 10.255.255.8 message-digest-key 1 md5 DBMIMD5 {# because int po 12 is authenticated, so we have to configure authentication on virtual-link #}
+!
+{% elif name == 'SW2' %}
+router ospf 100
+ area 7810 virtual-link 10.255.255.7 message-digest-key 1 md5 DBMIMD5
+!
+{% else %} 
+!
+{% endif %}
