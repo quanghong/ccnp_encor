@@ -86,7 +86,7 @@ Neighbor ID     Pri   State           Dead Time   Address         Interface
 ```
 
 
-## OSPF Optimization
+## OSPF Security
 Because when we set <b><i>"passive-interface default"</i></b> command, it will be delete all existed <b><i>"no passive-interface "gi/tun"</i></b> in interface configuration. So we need to prioritize which interface should be configure first or final. I note in [ospf_security.j2](/BSCI_OSPF/template/ospf_security.j2)
 
 > Be careful, we will be lost connection while configuring when loss management connection.
