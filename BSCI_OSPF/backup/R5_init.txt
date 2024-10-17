@@ -33,10 +33,42 @@ interface Tunnel1
 !
 interface GigabitEthernet0/0
  no ip address
- shutdown
+ no shutdown
  duplex auto
  speed auto
  media-type rj45
+!
+interface GigabitEthernet0/0.500
+ encapsulation dot1Q 500
+ ip address 10.50.0.5 255.255.255.0
+!
+interface GigabitEthernet0/0.501
+ encapsulation dot1Q 501
+ ip address 10.50.1.5 255.255.255.0
+!
+interface GigabitEthernet0/0.502
+ encapsulation dot1Q 502
+ ip address 10.50.2.5 255.255.255.0
+!
+interface GigabitEthernet0/0.503
+ encapsulation dot1Q 503
+ ip address 10.50.3.5 255.255.255.0
+!
+interface GigabitEthernet0/0.504
+ encapsulation dot1Q 504
+ ip address 10.50.4.5 255.255.255.0
+!
+interface GigabitEthernet0/0.505
+ encapsulation dot1Q 505
+ ip address 10.50.5.5 255.255.255.0
+!
+interface GigabitEthernet0/0.506
+ encapsulation dot1Q 506
+ ip address 10.50.6.5 255.255.255.0
+!
+interface GigabitEthernet0/0.507
+ encapsulation dot1Q 507
+ ip address 10.50.7.5 255.255.255.0
 !
 interface GigabitEthernet0/1
  ip address 10.0.0.5 255.255.255.248
