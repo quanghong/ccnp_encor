@@ -1,0 +1,73 @@
+{% if type == 'router_edge' %}
+int range tun 0 - 1
+ ip ospf dead-interval minimal hello-multiplier 3
+!
+{% elif type == "router_core" %}
+    {% if name == 'R1' %}
+    int range tun 0
+    ip ospf dead-interval minimal hello-multiplier 3
+    !
+    {% elif name == 'R4' %}
+    int range tun 1
+    ip ospf dead-interval minimal hello-multiplier 3
+    !
+    {% else %}
+    !
+    {% endif %}
+!
+int gi 0/1
+ ip ospf network point-to-point
+!
+
+{% elif type == 'switch' %}
+    {% if name == 'SW1' %}
+    !
+    int gi 1/1
+    ip ospf network point-to-point
+    !
+    int gi 1/0 {# the least influent on interrupt connection should be prioritized to configure #}
+    ip ospf network point-to-point
+    !
+    int po 12
+    ip ospf network point-to-point
+    !
+    int po 13
+    ip ospf network point-to-point
+    !
+    {% elif name == 'SW4' %}
+    !
+    int gi 0/1
+    ip ospf network point-to-point
+    !
+    int po 24
+    ip ospf network point-to-point
+    !
+    {% elif name == 'SW2' %}
+    !
+    int gi 1/1
+    ip ospf network point-to-point
+    !
+    int po 12
+    ip ospf network point-to-point
+    !
+    int po 24
+    ip ospf network point-to-point
+    !
+    int gi 0/3
+    ip ospf network point-to-point
+    !
+    {% elif name == 'SW3' %}
+    !
+    int po 13
+    ip ospf network point-to-point
+    !
+    int gi 0/2
+    ip ospf network point-to-point
+    !    
+    {% else %} 
+    !
+    {% endif %}
+!
+{% else %} 
+!
+{% endif %}
