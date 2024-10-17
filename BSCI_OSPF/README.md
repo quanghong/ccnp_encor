@@ -71,7 +71,7 @@ R1#show ip ospf database
 		Summary Net Link States (Area 1245)
 ```
 
-If we configure mismatch OSPF network type, there will put routers in 2WAY state.
+If we configure mismatch OSPF network type, routers will be in 2WAY state.
 ```bash
 SW1#show ip ospf neighbor
 
