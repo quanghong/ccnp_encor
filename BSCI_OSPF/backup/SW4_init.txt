@@ -44,8 +44,9 @@ interface GigabitEthernet1/1
  negotiation auto
 !
 interface GigabitEthernet1/2
- shutdown
- negotiation auto
+ switchport host
+ switchport acc vlan 10
+ no shut
 !
 interface GigabitEthernet1/3
  shutdown

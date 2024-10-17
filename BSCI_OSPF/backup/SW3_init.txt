@@ -44,12 +44,14 @@ interface GigabitEthernet1/1
  negotiation auto
 !
 interface GigabitEthernet1/2
- shutdown
- negotiation auto
+ switchport host
+ switchport acc vlan 9
+ no shut
 !
 interface GigabitEthernet1/3
- shutdown
- negotiation auto
+ no switchport
+ ip address 192.168.20.137 255.255.255.0
+ no shut
 !
 interface Vlan9
  ip address 10.100.9.9 255.255.255.0
