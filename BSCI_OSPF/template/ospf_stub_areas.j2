@@ -1,0 +1,80 @@
+{% if type == 'router_edge' %}
+router ospf 100
+ area 1245 nssa {# disconnect here #}
+!
+{% elif type == 'router_core' %}
+router ospf 100
+ area 1245 nssa no-summary {# R2, R5 reconnect here because all routers are configured NSSA area #}
+ end
+!
+{% elif type == 'switch' %}
+    {% if stub_area == 'stubby' %} {# Stubby area: SW1, SW2, SW3 #}
+        {# Configure advertise default route with specific target #}
+        {% if name == 'SW1' %}
+            router ospf 100
+             area 789 stub
+             area 789 default-cost 100 {# preferred path #}
+             end
+        !
+        {% elif name == 'SW2' %} 
+            router ospf 100
+             area 789 stub
+             area 789 default-cost 200
+             end
+        !
+        {% elif name == 'SW3' %} 
+            router ospf 100
+             area 789 stub
+             end
+        !
+        {% else %} 
+        !
+        {% endif %}
+        
+    {% elif stub_area == 'totally_stubby' %} {# Totally Stubby area: SW1, SW2, SW4 #}
+    
+        {% if name == 'SW1' %}
+            router ospf 100
+            no area 7810 virtual-link 10.255.255.8 message-digest-key 1 md5 DBMIMD5 {# delete virtual link to configure totally stubby area #}
+            no area 7810 virtual-link 10.255.255.8
+        !
+        {% elif name == 'SW2' %} 
+            router ospf 100
+            no area 7810 virtual-link 10.255.255.7 message-digest-key 1 md5 DBMIMD5
+            no area 7810 virtual-link 10.255.255.7
+        !
+        {% else %} 
+        !
+        {% endif %}
+        !
+
+        {# Configure Totally Stubby #}
+        {% if name == 'SW1' %}
+            router ospf 100
+             area 7810 stub no-summary {# Totally Stubby area: Only ABR routers configure no-summary #}
+             area 7810 default-cost 200
+             end
+        !
+        {% elif name == 'SW2' %} 
+            router ospf 100
+             area 7810 stub no-summary
+             area 7810 default-cost 100 {# preferred path #}
+             end
+        !
+        {% elif name == 'SW4' %} 
+            router ospf 100
+            area 7810 stub
+            end
+        !
+        {% else %} 
+        !
+        {% endif %}
+        !
+    {% else %} 
+    !
+    {% endif %}
+    !
+!
+{% else %} 
+!
+{% endif %}

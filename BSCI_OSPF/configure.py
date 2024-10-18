@@ -7,6 +7,7 @@ from jinja2 import FileSystemLoader, Environment
 from feature import *
 # from lib.ssh import SSH
 from netmiko import ConnectHandler
+from copy import deepcopy
 
 load_dotenv()
 EVE_NG_IP_HOST_ONLY = os.getenv('EVE_NG_IP_HOST_ONLY')
@@ -288,6 +289,52 @@ def configure_ospf_summarization(dev):
 
     connection.disconnect()
 
+def configure_ospf_stub_areas(dev, stub_area):
+    dev['username'] = USERNAME
+    dev['password'] = PASSWORD
+    dev['stub_area'] = stub_area
+
+    # Template
+    jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    jj_template = jj_env.get_template('ospf_stub_areas.j2')
+    commands = jj_template.render(dev).splitlines()
+    print('stub_area={}, name={}, commands={}'.format(stub_area, dev['name'], pformat(commands)))
+
+    # Create a socket object
+    source_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Bind the socket to the source IP and any available port (port 0 lets the OS pick the port)
+    source_socket.bind((EVE_NG_IP_HOST_ONLY, 0))
+    source_socket.connect((dev['ip'], 22))
+    dev['sock'] = source_socket
+    dev['verbose'] = True
+    del dev['name']
+    del dev['type']
+    del dev['stub_area']
+    dev['session_log'] = '{}/{}.log'.format(LOG_DIR, dev['ip'])
+    dev['session_log_file_mode'] = 'append'
+    pprint(dev)
+
+    # Connect
+    connection = ConnectHandler(**dev)
+    connection.enable()
+    # # SETTING OSPF STUB AREAS
+    print('ip={}, AREA change to {}, might lost connection!!!'.format(dev['ip'], stub_area.upper()))
+    connection.send_config_set(commands, read_timeout=10)
+
+    # # # LOST CONNECTION AFTER SENDING COMMANDS, NEED SAVE_CONFIG AFTER OSPF CONVERGENCE AGAIN!
+    connection.save_config()
+    
+    # Verify
+    neighbors = connection.send_command('show ip ospf neighbor', use_textfsm=False)
+    routes = connection.send_command('show ip route ospf', use_textfsm=False)
+    databases = connection.send_command('show ip ospf database', use_textfsm=False)
+    
+    connection.disconnect()
+
+    print('ip={}, neighbors={}'.format(dev['ip'], pformat(neighbors)))
+    print('ip={}, routes={}'.format(dev['ip'], pformat(routes)))
+    print('ip={}, databases={}'.format(dev['ip'], pformat(databases)))
+
 
 def main():
     '''OSPF Multi area'''
@@ -338,13 +385,43 @@ def main():
     #         print(traceback.format_exc())
 
     '''OSPF Summarization'''
-    list_configure_order = ['R1', 'R4', 'R5', 'SW1', 'SW2', 'SW3', 'SW4']
-    list_configure = get_list_device_configure(devices_inv, list_configure_order)
-    for dev in list_configure:
-        try:
-            configure_ospf_summarization(dev)
-        except Exception as exc:
-            print(traceback.format_exc())
+    # list_configure_order = ['R1', 'R4', 'R5', 'SW1', 'SW2', 'SW3', 'SW4']
+    # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    # for dev in list_configure:
+    #     try:
+    #         configure_ospf_summarization(dev)
+    #     except Exception as exc:
+    #         print(traceback.format_exc())
+
+    '''OSPF Stub Areas'''
+    ospf_stub_areas = ['nssa', 'stubby', 'totally_stubby']
+    for stub_area in ospf_stub_areas:
+        
+        if stub_area == 'nssa':
+            list_configure_order = ['R2', 'R5', 'R1', 'R4']
+            list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+        
+        elif stub_area == 'stubby':
+            list_configure_order = ['SW1', 'SW2', 'SW3']
+            list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+
+        elif stub_area == 'totally_stubby':
+            list_configure_order = ['SW1', 'SW4', 'SW2']
+            list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+        
+        else:
+            list_configure = []
+        
+        print('stub_area={}, list_configure={}'.format(stub_area, pformat(list_configure)))
+        for dev in list_configure:
+            try:
+                configure_ospf_stub_areas(dev, stub_area)
+            except Exception as exc:
+                print(traceback.format_exc())
+        
+        print('sleep 5s for ospf convergence')
+        time.sleep(5)
+
 
 if __name__ == '__main__':
     main()
