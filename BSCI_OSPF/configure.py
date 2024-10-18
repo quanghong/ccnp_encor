@@ -305,7 +305,7 @@ def main():
 
     '''OSPF Optimization'''
     # list_configure_order = ['R2', 'R5', 'R1', 'R4', 'SW1', 'SW4', 'SW2', 'SW3']
-    # list_configure = get_list_device_configure(devices_inv, list_configure_order)
+    # list_configure = get_list_device_configure(devices_inv.copy(), list_configure_order)
     # for dev in list_configure:
     #     try:
     #         configure_ospf_optimization(dev)
@@ -321,7 +321,7 @@ def main():
 
     '''OSPF Security'''
     # list_configure_order = ['SW1', 'SW2']
-    # list_configure = get_list_device_configure(devices_inv, list_configure_order)
+    # list_configure = get_list_device_configure(devices_inv.copy(), list_configure_order)
     # for dev in list_configure:
     #     try:
     #         configure_ospf_redundancy(dev)
@@ -330,7 +330,7 @@ def main():
 
     '''OSPF Path Selection'''
     # list_configure_order = ['R2', 'R5']
-    # list_configure = get_list_device_configure(devices_inv, list_configure_order)
+    # list_configure = get_list_device_configure(devices_inv.copy(), list_configure_order)
     # for dev in list_configure:
     #     try:
     #         configure_ospf_path_selection(dev)
