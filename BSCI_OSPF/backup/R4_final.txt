@@ -1,0 +1,177 @@
+
+R4#en
+R4#show run
+Building configuration...
+
+  
+Current configuration : 4056 bytes
+!
+! Last configuration change at 04:21:26 UTC Thu Oct 17 2024 by cisco
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R4
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name cisco.com
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username cisco privilege 15 secret 9 $9$yqYsZzjgt6.o3f$0mvwZXR0/xKtdMZ.5MKHnSg4GP.tibOFdCuxPuJlJ9U
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.255.255.4 255.255.255.255
+!
+interface Tunnel1
+ ip address 172.16.245.4 255.255.255.0
+ no ip redirects
+ ip nhrp authentication DMVPN2
+ ip nhrp network-id 2
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 DBMIMD5
+ ip ospf network point-to-multipoint non-broadcast
+ ip ospf dead-interval minimal hello-multiplier 3
+ tunnel source GigabitEthernet0/0
+ tunnel mode gre multipoint
+!
+interface GigabitEthernet0/0
+ ip address 10.0.0.9 255.255.255.248
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.100.48.4 255.255.255.0
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 DBMIMD5
+ ip ospf network point-to-point
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 100
+ router-id 10.255.255.4
+ area 1245 nssa no-summary
+ area 1245 range 10.20.0.0 255.255.252.0
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ no passive-interface Tunnel1
+ network 10.100.48.0 0.0.0.255 area 0
+ network 10.255.255.4 0.0.0.0 area 0
+ network 172.16.245.4 0.0.0.0 area 1245
+ neighbor 172.16.245.2
+ neighbor 172.16.245.5
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh version 2
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ login local
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+!
+no scheduler allocate
+!
+end

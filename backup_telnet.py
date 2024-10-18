@@ -12,7 +12,7 @@ USERNAME = input('username: ')
 PASSWORD = input('password: ')
 
 def backup(dev):
-    session = TELNET(host=dev['host'], username=dev['username'], password=dev['password'], port=dev['port'])
+    session = TELNET(host=dev['host'], username=USERNAME, password=PASSWORD, port=dev['port'])
     connection = session.connect()
     print(connection, pformat(dev))
 
