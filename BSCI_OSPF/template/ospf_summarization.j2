@@ -1,0 +1,15 @@
+{% if type == 'router_core' %}
+router ospf 100
+ area 1245 range 10.20.0.0 255.255.252.0
+ end
+!
+{% elif name == 'R5' %}
+router ospf 100
+ no network 10.50.0.0 0.0.7.255 area 1245
+ redistribute connected subnets
+ summary-address 10.50.0.0 255.255.248.0
+ end
+!
+{% else %} 
+!
+{% endif %}

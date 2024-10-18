@@ -225,3 +225,145 @@ VRF info: (vrf in name/id, vrf out name/id)
   2 10.100.17.7 9 msec 10 msec 8 msec
   3 10.100.78.8 9 msec *  9 msec
 ```
+
+## OSPF Summarization
+
+We have two options to summary routes and advertise it
+  * If we want routers (R1, R4, R2, R5) in a same area (1245) <b>still have specific routes but only advertise summary routes to other areas</b>, we configure at ABR routers to summarize routes:
+```bash
+#We have specific routes in backbone area
+SW1#show ip route | in 10.20
+O IA     10.20.1.0/24 [110/1002] via 10.100.17.1, 00:02:43, GigabitEthernet1/1
+O IA     10.20.2.0/24 [110/1002] via 10.100.17.1, 00:02:43, GigabitEthernet1/1
+SW2#show ip route | in 10.20
+O IA     10.20.1.0/24 [110/1002] via 10.100.48.4, 00:02:28, GigabitEthernet1/1
+O IA     10.20.2.0/24 [110/1002] via 10.100.48.4, 00:02:28, GigabitEthernet1/1
+```
+```bash
+#We summarize routes
+R1# router ospf 100
+R1#  area 1245 range 10.20.0.0 255.255.252.0
+R4# router ospf 100
+R4#  area 1245 range 10.20.0.0 255.255.252.0
+
+#After ABR routers summarize and advertise routes
+SW1#show ip route | in 10.20
+O IA     10.20.0.0/22 [110/1002] via 10.100.17.1, 00:07:32, GigabitEthernet1/1
+SW2#show ip route | in 10.20
+O IA     10.20.0.0/22 [110/1002] via 10.100.48.4, 00:01:02, GigabitEthernet1/1
+```
+  * If we <b>want summarize routes as External routes and inject into area</b>. We configure on ASBRs (R5) to redistribute routes:
+```bash
+#We have specific routes in backbone area
+R4(config-router)#do show ip route | in 10.50            
+O E2     10.50.0.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.1.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.2.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.3.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.4.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.5.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.6.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.7.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+
+#We redistribute routes
+R5# router ospf 100
+R5#  redistribute connected subnets
+#Result
+R4(config-router)#do show ip route | in 10.50            
+O E2     10.50.0.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.1.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.2.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.3.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.4.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.5.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.6.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+O E2     10.50.7.0/24 [110/20] via 172.16.245.5, 00:00:24, Tunnel1
+
+#We summarize redustributed routes
+R5# router ospf 100
+R5#  summary-address 10.50.0.0 255.255.248.0
+#Result
+R4(config-router)#do show ip route | in 10.50
+O E2     10.50.0.0/21 [110/20] via 172.16.245.5, 00:00:03, Tunnel1
+R1(config-router)#do show ip route | in 10.50
+O E2     10.50.0.0/21 [110/20] via 172.16.123.5, 00:00:01, Tunnel0
+```
+
+Look! We advertised IP WAN of R2, R5 into backbone area. I don't think it's good.
+```bash
+SW1#show ip route | in 10.20
+O E2     10.0.0.0/29 [110/20] via 10.100.17.1, 00:01:49, GigabitEthernet1/1
+O E2     10.0.0.8/29 [110/20] via 10.100.17.1, 00:01:49, GigabitEthernet1/1
+O IA     10.20.0.0/22 [110/1002] via 10.100.17.1, 00:02:05, GigabitEthernet1/1
+O E2     10.50.0.0/21 [110/20] via 10.100.17.1, 00:01:49, GigabitEthernet1/1
+SW2#show ip route | in 10.20
+O E2     10.0.0.0/29 [110/20] via 10.100.48.4, 00:01:54, GigabitEthernet1/1
+O E2     10.0.0.8/29 [110/20] via 10.100.48.4, 00:01:54, GigabitEthernet1/1
+O IA     10.20.0.0/22 [110/1002] via 10.100.48.4, 00:02:07, GigabitEthernet1/1
+O E2     10.50.0.0/21 [110/20] via 10.100.48.4, 00:01:54, GigabitEthernet1/1
+```
+
+Because R5 is configured with cmd <b>redistribute connected subnets</b>. So it advertises interface WAN to OSPF process.
+So we need to <b>distribute exactly prefixes from R5 except interface WAN.</b>
+Finally, we can compare now. We can see route <b>IA 10.20.0.0/22 as Type 3 Summary route</b> and <b>E2 10.50.0.0/21 as Type 5 External route</b>.
+```bash
+SW1#show ip route | in 10.20
+O IA     10.20.0.0/22 [110/1002] via 10.100.17.1, 00:17:31, GigabitEthernet1/1
+O E2     10.50.0.0/21 [110/20] via 10.100.17.1, 00:02:47, GigabitEthernet1/1
+SW1#show ip route | in 10.0
+      10.0.0.0/8 is variably subnetted, 26 subnets, 4 masks
+O        10.100.10.0/24
+
+SW2#show ip route | in 10.20
+O IA     10.20.0.0/22 [110/1002] via 10.100.48.4, 00:18:25, GigabitEthernet1/1
+O E2     10.50.0.0/21 [110/20] via 10.100.48.4, 00:03:41, GigabitEthernet1/1
+SW2#show ip route | in 10.0
+      10.0.0.0/8 is variably subnetted, 26 subnets, 4 masks
+O        10.100.10.0/24 [110/2] via 10.100.108.10, 03:38:50, Port-channel24
+```
+
+I tracert to make sure internal vlans send traffic to Tunnel interfaces by DMVPNs.
+```bash
+SW3#traceroute 10.50.7.5
+Type escape sequence to abort.
+Tracing the route to 10.50.7.5
+VRF info: (vrf in name/id, vrf out name/id)
+  1 10.100.89.8 3 msec
+    10.100.79.7 5 msec
+    10.100.89.8 2 msec
+  2 10.100.17.1 5 msec
+    10.100.48.4 8 msec
+    10.100.17.1 6 msec
+  3 172.16.245.5 9 msec
+    172.16.123.5 11 msec *
+
+SW4#traceroute 10.50.7.5
+Type escape sequence to abort.
+Tracing the route to 10.50.7.5
+VRF info: (vrf in name/id, vrf out name/id)
+  1 10.100.107.7 3 msec
+    10.100.108.8 4 msec
+    10.100.107.7 3 msec
+  2 10.100.48.4 13 msec
+    10.100.17.1 6 msec
+    10.100.48.4 7 msec
+  3 172.16.123.5 10 msec
+    172.16.245.5 9 msec *
+```
+
+Moreover, if we look at R5 is configured with <b>distribute-list</b>, we understand that it will filter the routes <b>(CONNECTED_TO_OSPF deny 20 / [10.0.0.0/29, 10.0.0.8/29])</b>.
+```bash
+#R5
+ip access-list standard CONNECTED_INTERNAL
+ permit 10.50.0.0 0.0.248.255
+!
+route-map CONNECTED_TO_OSPF permit 10
+ match ip address CONNECTED_INTERNAL
+!
+route-map CONNECTED_TO_OSPF deny 20
+!
+router ospf 100
+ redistribute connected subnets route-map CONNECTED_TO_OSPF
+```
+_And because R5 interfaces WAN are not advertised in OSPF. So we can not configure interfaces WAN with <b>summary-address ... not-advertise</b>._
+

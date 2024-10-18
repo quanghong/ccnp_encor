@@ -1,0 +1,15 @@
+{% if name == 'R5' %}
+ip access-list standard CONNECTED_INTERNAL
+ permit 10.50.0.0 0.0.248.255
+!
+route-map CONNECTED_TO_OSPF permit 10
+ match ip address CONNECTED_INTERNAL
+!
+route-map CONNECTED_TO_OSPF deny 20
+!
+router ospf 100
+ redistribute connected subnets route-map CONNECTED_TO_OSPF
+!
+{% else %} 
+!
+{% endif %}

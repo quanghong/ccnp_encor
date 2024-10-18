@@ -235,6 +235,60 @@ def configure_ospf_path_selection(dev):
     
     connection.disconnect()
 
+def configure_ospf_summarization(dev):
+    dev['username'] = USERNAME
+    dev['password'] = PASSWORD
+
+    # Template
+    jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    jj_template = jj_env.get_template('ospf_summarization.j2')
+    commands = jj_template.render(dev).splitlines()
+    print('name={}, commands={}'.format(dev['name'], pformat(commands)))
+
+    jj_template_dist = jj_env.get_template('ospf_distribute_list.j2')
+    commands_dist = jj_template_dist.render(dev).splitlines()
+    print('name={}, commands_dist={}'.format(dev['name'], pformat(commands_dist)))
+    
+    # Create a socket object
+    source_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Bind the socket to the source IP and any available port (port 0 lets the OS pick the port)
+    source_socket.bind((EVE_NG_IP_HOST_ONLY, 0))
+    source_socket.connect((dev['ip'], 22))
+    dev['sock'] = source_socket
+    dev['verbose'] = True
+    del dev['name']
+    del dev['type']
+    dev['session_log'] = '{}/{}.log'.format(LOG_DIR, dev['ip'])
+    dev['session_log_file_mode'] = 'append'
+    pprint(dev)
+
+    # Connect
+    connection = ConnectHandler(**dev)
+    connection.enable()
+    if dev['ip'] in ['10.255.255.1', '10.255.255.4', '10.255.255.5']:
+        connection.send_config_set(commands, read_timeout=10)
+        connection.save_config()
+    else:
+        # SW1, SW2, SW3, SW4 send command show.
+        time.sleep(1)
+        connection.send_command('show ip route | in 10.20', use_textfsm=False)
+        connection.send_command('show ip route | in 10.50', use_textfsm=False)
+    
+    # Configure distribute-list on R5 to advertise exactly prefixes
+    if dev['ip'] == '10.255.255.5':
+        connection.send_config_set(commands_dist, read_timeout=10)
+        connection.save_config()
+    elif dev['ip'] in ['10.255.255.7', '10.255.255.8', '10.255.255.9', '10.255.255.10']:
+        # SW1, SW2, SW3, SW4 send command show.
+        time.sleep(1)
+        connection.send_command('show ip route | in 10.20', use_textfsm=False)
+        connection.send_command('show ip route | in 10.50', use_textfsm=False)
+    else:
+        pass
+
+    connection.disconnect()
+
+
 def main():
     '''OSPF Multi area'''
     # threads = []
@@ -275,11 +329,20 @@ def main():
     #         print(traceback.format_exc())
 
     '''OSPF Path Selection'''
-    list_configure_order = ['R2', 'R5']
+    # list_configure_order = ['R2', 'R5']
+    # list_configure = get_list_device_configure(devices_inv, list_configure_order)
+    # for dev in list_configure:
+    #     try:
+    #         configure_ospf_path_selection(dev)
+    #     except Exception as exc:
+    #         print(traceback.format_exc())
+
+    '''OSPF Summarization'''
+    list_configure_order = ['R1', 'R4', 'R5', 'SW1', 'SW2', 'SW3', 'SW4']
     list_configure = get_list_device_configure(devices_inv, list_configure_order)
     for dev in list_configure:
         try:
-            configure_ospf_path_selection(dev)
+            configure_ospf_summarization(dev)
         except Exception as exc:
             print(traceback.format_exc())
 
