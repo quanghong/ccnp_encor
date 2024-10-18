@@ -252,7 +252,7 @@ O IA     10.20.0.0/22 [110/1002] via 10.100.17.1, 00:07:32, GigabitEthernet1/1
 SW2#show ip route | in 10.20
 O IA     10.20.0.0/22 [110/1002] via 10.100.48.4, 00:01:02, GigabitEthernet1/1
 ```
-  * If we <b>want summarize routes as External routes and inject into area</b>. We configure on ASBRs (R5) to redistribute routes:
+  * If we <b>want summarize routes as External routes and inject into area</b>. I will configure on R5 to compare with R2 with redistribute routes:
 ```bash
 #We have specific routes in backbone area
 R4(config-router)#do show ip route | in 10.50            
