@@ -338,60 +338,60 @@ def configure_ospf_stub_areas(dev, stub_area):
 
 def main():
     '''OSPF Multi area'''
-    # threads = []
-    # for dev in devices_inv:
-    #     try:
-    #         configure_ospf_multi_area(dev)
-    #     except Exception as exc:
-    #         print(traceback.format_exc())
-    # #     t = Thread(target=configure_ospf_multi_area, args= (dev,))
-    # #     t.start()
-    # #     threads.append(t)
-    # # for t in threads:
-    # #     t.join()
+    threads = []
+    for dev in devices_inv:
+        try:
+            configure_ospf_multi_area(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
+    #     t = Thread(target=configure_ospf_multi_area, args= (dev,))
+    #     t.start()
+    #     threads.append(t)
+    # for t in threads:
+    #     t.join()
 
     '''OSPF Optimization'''
-    # list_configure_order = ['R2', 'R5', 'R1', 'R4', 'SW1', 'SW4', 'SW2', 'SW3']
-    # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
-    # for dev in list_configure:
-    #     try:
-    #         configure_ospf_optimization(dev)
-    #     except Exception as exc:
-    #         print(traceback.format_exc())
+    list_configure_order = ['R2', 'R5', 'R1', 'R4', 'SW1', 'SW4', 'SW2', 'SW3']
+    list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    for dev in list_configure:
+        try:
+            configure_ospf_optimization(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
 
     '''OSPF Security'''
-    # for dev in list_configure:
-    #     try:
-    #         configure_ospf_security(dev)
-    #     except Exception as exc:
-    #         print(traceback.format_exc())
+    for dev in list_configure:
+        try:
+            configure_ospf_security(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
 
     '''OSPF Security'''
-    # list_configure_order = ['SW1', 'SW2']
-    # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
-    # for dev in list_configure:
-    #     try:
-    #         configure_ospf_redundancy(dev)
-    #     except Exception as exc:
-    #         print(traceback.format_exc())
+    list_configure_order = ['SW1', 'SW2']
+    list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    for dev in list_configure:
+        try:
+            configure_ospf_redundancy(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
 
     '''OSPF Path Selection'''
-    # list_configure_order = ['R2', 'R5']
-    # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
-    # for dev in list_configure:
-    #     try:
-    #         configure_ospf_path_selection(dev)
-    #     except Exception as exc:
-    #         print(traceback.format_exc())
+    list_configure_order = ['R2', 'R5']
+    list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    for dev in list_configure:
+        try:
+            configure_ospf_path_selection(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
 
     '''OSPF Summarization'''
-    # list_configure_order = ['R1', 'R4', 'R5', 'SW1', 'SW2', 'SW3', 'SW4']
-    # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
-    # for dev in list_configure:
-    #     try:
-    #         configure_ospf_summarization(dev)
-    #     except Exception as exc:
-    #         print(traceback.format_exc())
+    list_configure_order = ['R1', 'R4', 'R5', 'SW1', 'SW2', 'SW3', 'SW4']
+    list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    for dev in list_configure:
+        try:
+            configure_ospf_summarization(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
 
     '''OSPF Stub Areas'''
     ospf_stub_areas = ['nssa', 'stubby', 'totally_stubby']
