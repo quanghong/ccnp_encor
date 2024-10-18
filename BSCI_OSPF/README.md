@@ -252,7 +252,7 @@ O IA     10.20.0.0/22 [110/1002] via 10.100.17.1, 00:07:32, GigabitEthernet1/1
 SW2#show ip route | in 10.20
 O IA     10.20.0.0/22 [110/1002] via 10.100.48.4, 00:01:02, GigabitEthernet1/1
 ```
-  * If we <b>want summarize routes as External routes and inject into area</b>. I will configure on R5 to compare with R2 by redistribute routes:
+  * If we <b>want summarize routes as External routes and inject into area</b>. I will configure on R5 to compare with R2 by redistributing routes:
 ```bash
 #We have specific routes in backbone area
 R4(config-router)#do show ip route | in 10.50            
@@ -289,7 +289,7 @@ R1(config-router)#do show ip route | in 10.50
 O E2     10.50.0.0/21 [110/20] via 172.16.123.5, 00:00:01, Tunnel0
 ```
 
-Look! We advertised IP WAN of R2, R5 into backbone area. I don't think it's good.
+Look! We advertised IP WAN of R2, R5 into backbone area. I don't think it is good.
 ```bash
 SW1#show ip route | in 10.20
 O E2     10.0.0.0/29 [110/20] via 10.100.17.1, 00:01:49, GigabitEthernet1/1
@@ -351,7 +351,7 @@ VRF info: (vrf in name/id, vrf out name/id)
     172.16.245.5 9 msec *
 ```
 
-Moreover, if we look at R5 is configured with <b>distribute-list</b>, we understand that it will filter the routes <b>(CONNECTED_TO_OSPF deny 20 / [10.0.0.0/29, 10.0.0.8/29])</b>.
+Moreover, if we look at R5 is configured with <b>distribute-list</b>, we will understand that R5 will filter the WAN routes <b>(CONNECTED_TO_OSPF deny 20 / [10.0.0.0/29, 10.0.0.8/29])</b>.
 ```bash
 #R5
 ip access-list standard CONNECTED_INTERNAL
@@ -365,5 +365,5 @@ route-map CONNECTED_TO_OSPF deny 20
 router ospf 100
  redistribute connected subnets route-map CONNECTED_TO_OSPF
 ```
-_And because R5 interfaces WAN are not advertised in OSPF. So we can not configure interfaces WAN with <b>summary-address ... not-advertise</b>._
+_And because R5 WAN interfaces are not advertised with OSPF. So we can not configure WAN interfaces by cmd <b>summary-address ... not-advertise</b>._
 
