@@ -351,7 +351,7 @@ VRF info: (vrf in name/id, vrf out name/id)
     172.16.245.5 9 msec *
 ```
 
-Addition, we can see R1, R4 advertise LSA Type 4 to notify that if traffic on Area 0 want to reach to external routes, then send to it.
+Addition, we can see <b>ABR routers (R1, R4) advertise LSA Type 4 to notify that if traffic on Area 0 want to reach to external routes, then send to it.</b>
 ```bash
 R1# show ip ospf database
                 Summary ASB Link States (Area 0)
