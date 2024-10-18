@@ -19,7 +19,8 @@
     network 10.255.255.2 255.255.255.255 area 1245
     network 172.16.123.2 255.255.255.255 area 1245
     network 172.16.245.2 255.255.255.255 area 1245
-    network 10.20.0.0 0.0.255.255 area 1245
+    network 10.20.0.0 0.0.255.255 area 1245 {# for ease of configuring, we configure wildcard mask /16 for group matching local networks. This is not affect to learn or advertise routes#}
+    {# OR we can configure more specific with cmd: network 10.20.0.0 0.0.3.255 area 1245 #}
     end
     !
     {% elif name == 'R5' %}
@@ -28,6 +29,7 @@
     network 172.16.123.5 255.255.255.255 area 1245
     network 172.16.245.5 255.255.255.255 area 1245
     network 10.50.0.0 0.0.255.255 area 1245
+    {# we can configure more specific with cmd: network 10.50.0.0 0.0.7.255 area 1245 #}
     end
     !
     {% else %}
