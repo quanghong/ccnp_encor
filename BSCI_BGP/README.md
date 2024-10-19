@@ -23,5 +23,5 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State
 10.255.255.7    4          100      19      18        1    0    0 00:13:31        0
 10.255.255.8    4          100       4       3        1    0    0 00:01:42        0
 172.16.13.3     4          300       0       0        1    0    0 never    Active
-bash
+```
 
