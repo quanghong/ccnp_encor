@@ -1,0 +1,66 @@
+[
+    {
+        "name": "R2",
+        "ip": "10.255.255.2",
+        "type": "router_edge",
+        "device_type": "cisco_ios"
+    },
+    {
+        "name": "R5",
+        "ip": "10.255.255.5",
+        "type": "router_edge",
+        "device_type": "cisco_ios"
+    },
+
+    {
+        "name": "R3",
+        "ip": "",
+        "type": "router_isp",
+        "device_type": "cisco_ios"
+    },
+    {
+        "name": "R6",
+        "ip": "",
+        "type": "router_isp",
+        "device_type": "cisco_ios"
+    },
+
+    {
+        "name": "R4",
+        "ip": "10.255.255.4",
+        "type": "router_core",
+        "device_type": "cisco_ios"
+    },
+    {
+        "name": "R1",
+        "ip": "10.255.255.1",
+        "type": "router_core",
+        "device_type": "cisco_ios"
+    },
+
+    {
+        "name": "SW1",
+        "ip": "10.255.255.7",
+        "type": "switch",
+        "device_type": "cisco_ios"
+    },
+    {
+        "name": "SW2",
+        "ip": "10.255.255.8",
+        "type": "switch",
+        "device_type": "cisco_ios"
+    },
+
+    {
+        "name": "SW3",
+        "ip": "10.255.255.9",
+        "type": "switch",
+        "device_type": "cisco_ios"
+    },
+    {
+        "name": "SW4",
+        "ip": "10.255.255.10",
+        "type": "switch",
+        "device_type": "cisco_ios"
+    }
+]

@@ -1,0 +1,45 @@
+hostname R1
+!
+no ip domain lookup
+!
+interface Loopback0
+ ip address 10.255.255.1 255.255.255.255
+!
+interface Tunnel0
+ ip address 172.16.123.1 255.255.255.0
+ no ip redirects
+ ip nhrp authentication DMVPN1
+ ip nhrp network-id 1
+ tunnel source GigabitEthernet0/1
+ tunnel mode gre multipoint
+!
+interface GigabitEthernet0/1
+ ip address 10.0.0.1 255.255.255.248
+ no shutdown
+!
+interface GigabitEthernet0/0
+ ip address 10.100.17.1 255.255.255.0
+ no shutdown
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+!
+ip route 0.0.0.0 0.0.0.0 Null0
+!
+line con 0
+ login local
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+!
+!
+end
+wr mem
+copy run start
+

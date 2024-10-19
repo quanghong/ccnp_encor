@@ -1,0 +1,100 @@
+hostname R3
+!
+no ip domain lookup
+!
+interface Loopback0
+ ip address 192.10.0.1 255.255.240.0
+!
+interface Loopback1
+ ip address 192.10.16.1 255.255.240.0
+!
+interface Loopback2
+ ip address 192.10.32.1 255.255.240.0
+!
+interface Loopback3
+ ip address 192.10.48.1 255.255.240.0
+!
+interface Loopback4
+ ip address 192.168.0.1 255.255.255.0
+!
+interface Loopback5
+ ip address 192.168.1.1 255.255.255.0
+!
+interface Loopback6
+ ip address 192.168.2.1 255.255.255.0
+!
+interface Loopback7
+ ip address 192.168.3.1 255.255.255.0
+!
+interface Loopback8
+ ip address 1.0.0.1 255.192.0.0
+!
+interface Loopback9
+ ip address 1.64.0.1 255.192.0.0
+!
+interface Loopback10
+ ip address 1.128.0.1 255.192.0.0
+!
+interface Loopback11
+ ip address 1.192.0.1 255.192.0.0
+!
+interface GigabitEthernet0/0
+ ip address 172.16.36.3 255.255.255.0
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 172.16.13.3 255.255.255.0
+ no shutdown
+!
+router bgp 300
+ no synchronization
+ bgp log-neighbor-changes
+ redistribute connected route-map REDIST
+ neighbor 172.16.13.1 remote-as 100
+ neighbor 172.16.13.1 password ISP1BGP
+ neighbor 172.16.13.1 route-map BGP out
+ neighbor 172.16.36.6 remote-as 600
+ neighbor 172.16.36.6 next-hop-self
+ neighbor 172.16.36.6 route-map BGP out
+ no auto-summary
+!
+ip prefix-list 1 seq 5 permit 192.10.0.0/16 le 32
+!
+ip prefix-list 2 seq 5 permit 192.168.0.0/16 le 32
+!
+ip prefix-list 3 seq 5 permit 1.0.0.0/8 le 32
+!
+route-map REDIST deny 10
+ match interface gigabitEthernet 0/0 gigabitEthernet 0/1
+!
+route-map REDIST permit 20
+!
+route-map BGP permit 10
+ match ip address prefix-list 1
+ set origin igp
+ set as-path prepend 18 243 93 813
+!
+route-map BGP permit 20
+ match ip address prefix-list 2
+ set origin igp
+ set as-path prepend 7018 7018 7018 1200
+!
+route-map BGP permit 30
+ match ip address prefix-list 3
+!
+route-map BGP permit 1000
+!
+!
+!
+line con 0
+ login local
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+!
+!
+end
+wr mem
+copy run start
+

@@ -1,0 +1,101 @@
+hostname R6
+!
+no ip domain lookup
+!
+interface Loopback0
+ ip address 2.0.0.1 255.255.255.0
+!
+interface Loopback1
+ ip address 2.0.18.1 255.255.255.0
+!
+interface Loopback2
+ ip address 2.0.35.1 255.255.255.0
+!
+interface Loopback3
+ ip address 2.0.87.1 255.255.255.0
+!
+interface Loopback4
+ ip address 4.0.0.1 255.128.0.0
+!
+interface Loopback5
+ ip address 4.128.0.1 255.128.0.0
+!
+interface Loopback6
+ ip address 182.12.0.1 255.255.0.0
+!
+interface Loopback7
+ ip address 182.13.0.1 255.255.0.0
+!
+interface Loopback8
+ ip address 182.14.0.1 255.255.0.0
+!
+interface Loopback9
+ ip address 182.15.0.1 255.255.0.0
+!
+interface Loopback10
+ ip address 182.16.0.1 255.255.0.0
+!
+interface Loopback11
+ ip address 182.17.0.1 255.255.0.0
+!
+interface GigabitEthernet0/0
+ ip address 172.16.36.6 255.255.255.0
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 172.16.46.6 255.255.255.0
+ no shutdown
+!
+router bgp 600
+ no synchronization
+ bgp log-neighbor-changes
+ redistribute connected route-map REDIST
+ neighbor 172.16.36.3 remote-as 300
+ neighbor 172.16.36.3 next-hop-self
+ neighbor 172.16.36.3 route-map BGP out
+ neighbor 172.16.46.4 remote-as 100
+ neighbor 172.16.46.4 password ISP2BGP
+ neighbor 172.16.46.4 route-map BGP out
+ no auto-summary
+!
+ip prefix-list 1 seq 5 permit 2.0.0.0/8 le 32
+!
+ip prefix-list 2 seq 5 permit 4.0.0.0/8 le 32
+!
+ip prefix-list 3 seq 5 permit 182.0.0.0/8 le 32
+!
+route-map REDIST deny 10
+ match interface gigabitEthernet 0/0 gigabitEthernet 0/1
+!
+route-map REDIST permit 20
+!
+route-map BGP permit 10
+ match ip address prefix-list 1
+ set origin igp
+ set as-path prepend 600 600 600 8543
+!
+route-map BGP permit 20
+ match ip address prefix-list 2
+ set as-path prepend 1221 4637 335
+!
+route-map BGP permit 30
+ match ip address prefix-list 3
+ set origin igp
+!
+route-map BGP permit 1000
+!
+!
+!
+!
+line con 0
+ login local
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+!
+!
+end
+wr mem
+copy run start
+
