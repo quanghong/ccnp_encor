@@ -1,0 +1,67 @@
+{% if name == 'R1' %}
+router bgp 100
+ neighbor 10.255.255.4 remote-as 100
+ neighbor 10.255.255.4 update-source lo 0
+ neighbor 10.255.255.4 password DBMIBGP
+ !
+ neighbor 10.255.255.7 remote-as 100
+ neighbor 10.255.255.7 update-source lo 0
+ neighbor 10.255.255.7 password DBMIBGP
+ !
+ neighbor 10.255.255.8 remote-as 100
+ neighbor 10.255.255.8 update-source lo 0
+ neighbor 10.255.255.8 password DBMIBGP
+ !
+ exit
+!
+{% elif name == 'R4' %}
+router bgp 100
+ neighbor 10.255.255.1 remote-as 100
+ neighbor 10.255.255.1 update-source lo 0
+ neighbor 10.255.255.1 password DBMIBGP
+ !
+ neighbor 10.255.255.7 remote-as 100
+ neighbor 10.255.255.7 update-source lo 0
+ neighbor 10.255.255.7 password DBMIBGP
+ !
+ neighbor 10.255.255.8 remote-as 100
+ neighbor 10.255.255.8 update-source lo 0
+ neighbor 10.255.255.8 password DBMIBGP
+ !
+ exit
+!
+{% elif name == 'SW1' %}
+router bgp 100
+ neighbor 10.255.255.1 remote-as 100
+ neighbor 10.255.255.1 update-source lo 0
+ neighbor 10.255.255.1 password DBMIBGP
+ !
+ neighbor 10.255.255.4 remote-as 100
+ neighbor 10.255.255.4 update-source lo 0
+ neighbor 10.255.255.4 password DBMIBGP
+ !
+ neighbor 10.255.255.8 remote-as 100
+ neighbor 10.255.255.8 update-source lo 0
+ neighbor 10.255.255.8 password DBMIBGP
+ !
+ exit
+!
+{% elif name == 'SW2' %}
+router bgp 100
+ neighbor 10.255.255.1 remote-as 100
+ neighbor 10.255.255.1 update-source lo 0
+ neighbor 10.255.255.1 password DBMIBGP
+ !
+ neighbor 10.255.255.4 remote-as 100
+ neighbor 10.255.255.4 update-source lo 0
+ neighbor 10.255.255.4 password DBMIBGP
+ !
+ neighbor 10.255.255.7 remote-as 100
+ neighbor 10.255.255.7 update-source lo 0
+ neighbor 10.255.255.7 password DBMIBGP
+ !
+ exit
+!
+{% else %}
+!
+{% endif %}
