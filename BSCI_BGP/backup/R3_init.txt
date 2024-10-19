@@ -84,16 +84,6 @@ route-map BGP permit 30
 !
 route-map BGP permit 1000
 !
-!
-!
-line con 0
- login local
-line aux 0
-line vty 0 4
- login local
- transport input all
-!
-!
 end
 wr mem
 copy run start

@@ -61,14 +61,6 @@ interface Vlan10
  ip address 10.100.10.10 255.255.255.0
  no shutdown
 !
-line con 0
- login local
-line aux 0
-line vty 0 4
- login local
- transport input all
-!
-!
 end
 wr mem
 copy run start

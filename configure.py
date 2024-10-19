@@ -80,6 +80,8 @@ def main():
     for t in threads:
         t.join()
 
+    # CHANGE ENVIROMENT VARIABLE TO CONFIGURE BASIC PROTOCOLS
+
     '''Basic EIGRP'''
 
     '''Basic OSPF'''

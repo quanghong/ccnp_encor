@@ -31,14 +31,6 @@ interface GigabitEthernet0/3
 !
 ip route 0.0.0.0 0.0.0.0 Null0
 !
-line con 0
- login local
-line aux 0
-line vty 0 4
- login local
- transport input all
-!
-!
 end
 wr mem
 copy run start
