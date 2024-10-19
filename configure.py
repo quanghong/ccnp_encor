@@ -85,12 +85,15 @@ def main():
     '''Basic EIGRP'''
 
     '''Basic OSPF'''
+    threads = []
     for dev in devices_inv:
-        configure_basic_ospf(dev)
+        t = Thread(target=configure_basic_ospf, args= (dev,))
+        t.start()
+        threads.append(t)
+    for t in threads:
+        t.join()
 
     '''Basic IS-IS'''
-    
-    '''Basic BGP'''
 
 
 if __name__ == '__main__':
