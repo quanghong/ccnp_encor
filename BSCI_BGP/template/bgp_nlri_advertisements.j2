@@ -1,0 +1,24 @@
+{% if name in ['R1', 'R4'] %}
+router bgp 100
+ network 10.20.0.0 mask 255.255.255.0
+ network 10.20.1.0 mask 255.255.255.0
+ network 10.20.2.0 mask 255.255.255.0
+ network 10.20.3.0 mask 255.255.255.0
+ network 10.50.0.0 mask 255.255.255.0
+ network 10.50.1.0 mask 255.255.255.0
+ network 10.50.2.0 mask 255.255.255.0
+ network 10.50.3.0 mask 255.255.255.0
+ network 10.50.4.0 mask 255.255.255.0
+ network 10.50.5.0 mask 255.255.255.0
+ network 10.50.6.0 mask 255.255.255.0
+ network 10.50.7.0 mask 255.255.255.0
+ network 10.100.7.0 mask 255.255.255.0
+ network 10.100.8.0 mask 255.255.255.0
+ network 10.100.9.0 mask 255.255.255.0
+ network 10.100.10.0 mask 255.255.255.0
+ !
+ exit
+!
+{% else %}
+!
+{% endif %}
