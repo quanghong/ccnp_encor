@@ -249,40 +249,40 @@ def configure_inbound_bgp_path_selection(dev):
 
 def main():
     '''iBGP Peerings'''
-    # list_configure_order = ['R1', 'R4', 'SW1', 'SW2']
-    # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
-    # for dev in list_configure:
-    #     try:
-    #         configure_ibgp_peerings(dev)
-    #     except Exception as exc:
-    #         print(traceback.format_exc())
+    list_configure_order = ['R1', 'R4', 'SW1', 'SW2']
+    list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    for dev in list_configure:
+        try:
+            configure_ibgp_peerings(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
 
     '''eBGP Peerings'''
-    # list_configure_order = ['R1', 'R4', 'SW1', 'SW2']
-    # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
-    # for dev in list_configure:
-    #     try:
-    #         configure_ebgp_peerings(dev)
-    #     except Exception as exc:
-    #         print(traceback.format_exc())
+    list_configure_order = ['R1', 'R4', 'SW1', 'SW2']
+    list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    for dev in list_configure:
+        try:
+            configure_ebgp_peerings(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
 
     '''BGP NLRI Advertisements'''
-    # list_configure_order = ['R1', 'R4']
-    # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
-    # for dev in list_configure:
-    #     try:
-    #         configure_bgp_nlri_advertisements(dev)
-    #     except Exception as exc:
-    #         print(traceback.format_exc())
+    list_configure_order = ['R1', 'R4']
+    list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    for dev in list_configure:
+        try:
+            configure_bgp_nlri_advertisements(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
 
     '''BGP Routes Aggregation'''
-    # list_configure_order = ['R1', 'R4']
-    # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
-    # for dev in list_configure:
-    #     try:
-    #         configure_bgp_routes_aggregation(dev)
-    #     except Exception as exc:
-    #         print(traceback.format_exc())
+    list_configure_order = ['R1', 'R4']
+    list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    for dev in list_configure:
+        try:
+            configure_bgp_routes_aggregation(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
 
     '''BGP Routes Aggregation'''
     list_configure_order = ['R4', 'R1']

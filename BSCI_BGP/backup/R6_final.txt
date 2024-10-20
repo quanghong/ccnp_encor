@@ -1,0 +1,216 @@
+
+R6#en
+R6#show run
+Building configuration...
+
+  
+Current configuration : 4624 bytes
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R6
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name cisco.com
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username cisco privilege 15 secret 9 $9$R82bxKT6WzOXwf$2eYUSu6P3tafOHfKOkTnqSyI9XFdTFPFrPOn2K5iQgo
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 2.0.0.1 255.255.255.0
+!
+interface Loopback1
+ ip address 2.0.18.1 255.255.255.0
+!
+interface Loopback2
+ ip address 2.0.35.1 255.255.255.0
+!
+interface Loopback3
+ ip address 2.0.87.1 255.255.255.0
+!
+interface Loopback4
+ ip address 4.0.0.1 255.128.0.0
+!
+interface Loopback5
+ ip address 4.128.0.1 255.128.0.0
+!
+interface Loopback6
+ ip address 182.12.0.1 255.255.0.0
+!
+interface Loopback7
+ ip address 182.13.0.1 255.255.0.0
+!
+interface Loopback8
+ ip address 182.14.0.1 255.255.0.0
+!
+interface Loopback9
+ ip address 182.15.0.1 255.255.0.0
+!
+interface Loopback10
+ ip address 182.16.0.1 255.255.0.0
+!
+interface Loopback11
+ ip address 182.17.0.1 255.255.0.0
+!
+interface GigabitEthernet0/0
+ ip address 172.16.36.6 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 172.16.46.6 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 600
+ bgp log-neighbor-changes
+ redistribute connected route-map REDIST
+ neighbor 172.16.36.3 remote-as 300
+ neighbor 172.16.36.3 next-hop-self
+ neighbor 172.16.36.3 route-map BGP out
+ neighbor 172.16.46.4 remote-as 100
+ neighbor 172.16.46.4 password ISP2BGP
+ neighbor 172.16.46.4 route-map BGP out
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh version 2
+!
+!
+ip prefix-list 1 seq 5 permit 2.0.0.0/8 le 32
+!
+ip prefix-list 2 seq 5 permit 4.0.0.0/8 le 32
+!
+ip prefix-list 3 seq 5 permit 182.0.0.0/8 le 32
+ipv6 ioam timestamp
+!
+route-map REDIST deny 10
+ match interface GigabitEthernet0/0 GigabitEthernet0/1
+!
+route-map REDIST permit 20
+!
+route-map BGP permit 10
+ match ip address prefix-list 1
+ set origin igp
+ set as-path prepend 600 600 600 8543
+!
+route-map BGP permit 20
+ match ip address prefix-list 2
+ set as-path prepend 1221 4637 335
+!
+route-map BGP permit 30
+ match ip address prefix-list 3
+ set origin igp
+!
+route-map BGP permit 1000
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ login local
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+!
+no scheduler allocate
+!
+end

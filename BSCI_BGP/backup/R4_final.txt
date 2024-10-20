@@ -1,0 +1,208 @@
+
+R4#en
+R4#show run
+Building configuration...
+
+  
+Current configuration : 5252 bytes
+!
+! Last configuration change at 17:53:22 UTC Sat Oct 19 2024 by cisco
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R4
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name cisco.com
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username cisco privilege 15 secret 9 $9$URCYULIq2wa9rv$hBuoJJnpj3MhmyyMO7XmtvLwoikvPXYdxC4l4q9NFb2
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.255.255.4 255.255.255.255
+!
+interface Tunnel1
+ ip address 172.16.245.4 255.255.255.0
+ no ip redirects
+ ip nhrp authentication DMVPN2
+ ip nhrp network-id 2
+ ip ospf network point-to-multipoint non-broadcast
+ tunnel source GigabitEthernet0/1
+ tunnel mode gre multipoint
+!
+interface GigabitEthernet0/0
+ ip address 10.100.48.4 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.0.0.9 255.255.255.248
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 172.16.46.4 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 100
+ router-id 10.255.255.4
+ network 10.100.48.0 0.0.0.255 area 0
+ network 10.255.255.4 0.0.0.0 area 0
+ network 172.16.245.4 0.0.0.0 area 1
+ neighbor 172.16.245.2
+ neighbor 172.16.245.5
+ default-information originate
+!
+router bgp 100
+ bgp log-neighbor-changes
+ network 10.20.0.0 mask 255.255.255.0
+ network 10.20.1.0 mask 255.255.255.0
+ network 10.20.2.0 mask 255.255.255.0
+ network 10.20.3.0 mask 255.255.255.0
+ network 10.50.0.0 mask 255.255.255.0
+ network 10.50.1.0 mask 255.255.255.0
+ network 10.50.2.0 mask 255.255.255.0
+ network 10.50.3.0 mask 255.255.255.0
+ network 10.50.4.0 mask 255.255.255.0
+ network 10.50.5.0 mask 255.255.255.0
+ network 10.50.6.0 mask 255.255.255.0
+ network 10.50.7.0 mask 255.255.255.0
+ network 10.100.7.0 mask 255.255.255.0
+ network 10.100.8.0 mask 255.255.255.0
+ network 10.100.9.0 mask 255.255.255.0
+ network 10.100.10.0 mask 255.255.255.0
+ aggregate-address 10.100.8.0 255.255.252.0 summary-only
+ aggregate-address 10.50.0.0 255.255.248.0 summary-only
+ aggregate-address 10.20.0.0 255.255.252.0 summary-only
+ neighbor 10.255.255.1 remote-as 100
+ neighbor 10.255.255.1 password DBMIBGP
+ neighbor 10.255.255.1 update-source Loopback0
+ neighbor 10.255.255.1 next-hop-self
+ neighbor 10.255.255.7 remote-as 100
+ neighbor 10.255.255.7 password DBMIBGP
+ neighbor 10.255.255.7 update-source Loopback0
+ neighbor 10.255.255.7 next-hop-self
+ neighbor 10.255.255.8 remote-as 100
+ neighbor 10.255.255.8 password DBMIBGP
+ neighbor 10.255.255.8 update-source Loopback0
+ neighbor 10.255.255.8 next-hop-self
+ neighbor 172.16.46.6 remote-as 600
+ neighbor 172.16.46.6 password ISP2BGP
+ neighbor 172.16.46.6 timers 1 3
+ neighbor 172.16.46.6 route-map LOCAL_PREFERENCE in
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 Null0
+ip ssh version 2
+!
+ipv6 ioam timestamp
+!
+route-map LOCAL_PREFERENCE permit 10
+ set local-preference 1000
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ login local
+line aux 0
+line vty 0 4
+ login local
+ transport input all
+!
+no scheduler allocate
+!
+end
