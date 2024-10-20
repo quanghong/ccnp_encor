@@ -12,7 +12,7 @@ PATH_CODE: BSCI_BGP
 ## iBGP Peerings
 **iBGP split-horizon**
 <b>iBGP require full-mesh connectivity between routers in a transit AS.</b>
-> Ex transit AS:  R1 - SW1 - SW2
+> Transit AS:  R1 - SW1 - SW2
 
 If only SW1 peer with R1 and SW1 peer with SW2, R1 and SW2 don't establish peering. SW1:
 * SW1 <b>don't forward Open/ Update message</b> from R1 to SW2, R1 and SW2 can't establish peering.
@@ -101,10 +101,9 @@ R1(config-router)#network 10.100.7.0 mask 255.255.240.0
 % BGP: Incorrect network or mask/prefix-length configured
 ```
 
-
 ## BGP Routes Aggregation
 With network [10.100.7.0/24, 10.100.8.0/24, 10.100.9.0/24, 10.100.10.0/24], we can summarize with <b>10.100.0.0/20</b>.
-But we only want to summarize with minimum networks and only advertise routes in DBMI network, so we only summarize ranges [10.100.8.0/24, 10.100.9.0/24, 10.100.10.0/24] with <b>10.100.8.0 and a single network \[10.100.7.0/24].
+But we only want to summarize with minimum networks and only advertise routes in DBMI network, so we only summarize ranges [10.100.8.0/24, 10.100.9.0/24, 10.100.10.0/24] with <b>10.100.8.0 and a single network \[10.100.7.0/24]</b>.
 
 ```bash
 #R1 summarize wide range network.
@@ -122,4 +121,57 @@ R4#show ip bgp neighbors 172.16.46.6 advertised-routes
  *>   10.20.0.0/22     0.0.0.0                            32768 i
  *>   10.50.0.0/21     0.0.0.0                            32768 i
  *>   10.100.0.0/20    0.0.0.0                            32768 i
+```
+
+## Outbound BGP Path Selection
+We want to prefer all traffic will send to ISP2. So we choose <b>Local Preference</b> path attribute because Local Preference will <b>influence to all routers in an AS and R4 is a decision router, then we set policy on R4's inbound interface</b>.
+Local Preference <b>HIGHER</b> will be chosen.
+```bash
+R1#show ip bgp 1.0.0.0
+BGP routing table entry for 1.0.0.0/10, version 10
+Paths: (1 available, best #1, table default)
+  Advertised to update-groups:
+     5         
+  Refresh Epoch 1
+  300
+    172.16.13.3 from 172.16.13.3 (192.168.3.1)
+      Origin incomplete, metric 0, localpref 100, valid, external, best
+      rx pathid: 0, tx pathid: 0x
+
+#Result after setting Local Preference.
+R1# show ip bgp 1.0.0.0
+BGP routing table entry for 1.0.0.0/10, version 248
+Paths: (2 available, best #1, table default)
+  Advertised to update-groups:
+     6         
+  Refresh Epoch 2
+  600 300
+    10.255.255.4 (metric 4) from 10.255.255.4 (10.255.255.4)
+      Origin incomplete, metric 0, localpref 1000, valid, internal, best
+      rx pathid: 0, tx pathid: 0x0
+  Refresh Epoch 1
+  300
+    172.16.13.3 from 172.16.13.3 (192.168.3.1)
+      Origin incomplete, metric 0, localpref 100, valid, external
+      rx pathid: 0, tx pathid: 0
+```
+
+## Inbound BGP Path Selection
+We have <b>Multi-Exit Discriminator and AS PATH prepending path attributes to influence Next Hop device to choose which path to go to local AS</b>.
+We configure AS PATH prepending on R1 to influence R3 forward traffic to R6, then send traffic to R4 to reach to DMBI networks.
+```bash
+R3#show ip bgp
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>   2.0.0.0/24       172.16.13.1                            0 100 600 ?
+ *>   2.0.18.0/24      172.16.13.1                            0 100 600 ?
+ *>   2.0.35.0/24      172.16.13.1                            0 100 600 ?
+
+#Result after setting AS PATH prepending.
+R3#show ip bgp
+     Network          Next Hop            Metric LocPrf Weight Path
+ *    2.0.0.0/24       172.16.13.1                            0 100 100 100 100 100 100 600 600 600 600 8543 i
+ *>                    172.16.36.6              0             0 600 600 600 600 8543 i
+ *    2.0.18.0/24      172.16.13.1                            0 100 100 100 100 100 100 600 600 600 600 8543 i
+ *>                    172.16.36.6              0             0 600 600 600 600 8543 i
+ *    2.0.35.0/24      172.16.13.1                            0 100 100 100 100 100 100 600 600 600 600 8543 i
 ```

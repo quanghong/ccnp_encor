@@ -183,6 +183,69 @@ def configure_bgp_routes_aggregation(dev):
     print('ip={}, advertised_routes={}'.format(dev['ip'], pformat(advertised_routes)))
     print('ip={}, routes={}'.format(dev['ip'], pformat(routes)))
 
+def configure_outbound_bgp_path_selection(dev):
+    dev['username'] = USERNAME
+    dev['password'] = PASSWORD
+
+    jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    jj_template = jj_env.get_template('outbound_bgp_path_selection.j2')
+    commands = jj_template.render(dev).splitlines()
+    print('name={}, commands={}'.format(dev['name'], pformat(commands)))
+
+    # Create a socket object
+    source_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Bind the socket to the source IP and any available port (port 0 lets the OS pick the port)
+    source_socket.bind((EVE_NG_IP_HOST_ONLY, 0))
+    source_socket.connect((dev['ip'], 22))
+    dev['sock'] = source_socket
+    dev['verbose'] = True
+    del dev['name']
+    del dev['type']
+    dev['session_log'] = '{}/{}.log'.format(LOG_DIR, dev['ip'])
+    dev['session_log_file_mode'] = 'append'
+    pprint(dev)
+
+    # Connect
+    connection = ConnectHandler(**dev)
+    connection.enable()
+    if dev['ip'] == '10.255.255.4':
+        connection.send_config_set(commands, read_timeout=10)
+        connection.save_config()
+    else:
+        #R1
+        internet_routes = connection.send_command('show ip bgp 1.0.0.0', use_textfsm=False)
+        print('ip={}, internet_routes={}'.format(dev['ip'], pformat(internet_routes)))
+
+    connection.disconnect()
+    
+def configure_inbound_bgp_path_selection(dev):
+    dev['username'] = USERNAME
+    dev['password'] = PASSWORD
+
+    jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    jj_template = jj_env.get_template('inbound_bgp_path_selection.j2')
+    commands = jj_template.render(dev).splitlines()
+    print('name={}, commands={}'.format(dev['name'], pformat(commands)))
+
+    # Create a socket object
+    source_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Bind the socket to the source IP and any available port (port 0 lets the OS pick the port)
+    source_socket.bind((EVE_NG_IP_HOST_ONLY, 0))
+    source_socket.connect((dev['ip'], 22))
+    dev['sock'] = source_socket
+    dev['verbose'] = True
+    del dev['name']
+    del dev['type']
+    dev['session_log'] = '{}/{}.log'.format(LOG_DIR, dev['ip'])
+    dev['session_log_file_mode'] = 'append'
+    pprint(dev)
+
+    # Connect
+    connection = ConnectHandler(**dev)
+    connection.enable()
+    connection.send_config_set(commands, read_timeout=10)
+    connection.save_config()
+    connection.disconnect()
 
 def main():
     '''iBGP Peerings'''
@@ -194,7 +257,7 @@ def main():
     #     except Exception as exc:
     #         print(traceback.format_exc())
 
-    # '''eBGP Peerings'''
+    '''eBGP Peerings'''
     # list_configure_order = ['R1', 'R4', 'SW1', 'SW2']
     # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
     # for dev in list_configure:
@@ -203,7 +266,7 @@ def main():
     #     except Exception as exc:
     #         print(traceback.format_exc())
 
-    # '''BGP NLRI Advertisements'''
+    '''BGP NLRI Advertisements'''
     # list_configure_order = ['R1', 'R4']
     # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
     # for dev in list_configure:
@@ -213,14 +276,34 @@ def main():
     #         print(traceback.format_exc())
 
     '''BGP Routes Aggregation'''
-    list_configure_order = ['R1', 'R4']
+    # list_configure_order = ['R1', 'R4']
+    # list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    # for dev in list_configure:
+    #     try:
+    #         configure_bgp_routes_aggregation(dev)
+    #     except Exception as exc:
+    #         print(traceback.format_exc())
+
+    '''BGP Routes Aggregation'''
+    list_configure_order = ['R4', 'R1']
     list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
     for dev in list_configure:
         try:
-            configure_bgp_routes_aggregation(dev)
+            configure_outbound_bgp_path_selection(dev)
+            # wait for 5s to relearn routes
+            time.sleep(5)
         except Exception as exc:
             print(traceback.format_exc())
-            
+
+
+    '''BGP Routes Aggregation'''
+    list_configure_order = ['R1']
+    list_configure = get_list_device_configure(deepcopy(devices_inv), list_configure_order)
+    for dev in list_configure:
+        try:
+            configure_inbound_bgp_path_selection(dev)
+        except Exception as exc:
+            print(traceback.format_exc())
 
 if __name__ == '__main__':
     main()

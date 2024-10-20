@@ -1,0 +1,12 @@
+{% if name == 'R4' %}
+route-map LOCAL_PREFERENCE permit 10
+ set local-preference 1000
+ exit
+!
+router bgp 100
+ neighbor 172.16.46.6 route-map LOCAL_PREFERENCE in
+ exit
+!
+{% else %}
+!
+{% endif %}

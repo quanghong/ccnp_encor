@@ -1,0 +1,12 @@
+{% if name == 'R1' %}
+route-map AS_PATH permit 10
+ set as-path prepend 100 100 100 100 100
+ exit
+!
+router bgp 100
+ neighbor 172.16.13.3 route-map AS_PATH out
+ exit
+!
+{% else %}
+!
+{% endif %}
