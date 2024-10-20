@@ -1,0 +1,86 @@
+{% if name == 'R1' %}
+{#
+router bgp 1
+ neighbor 192.168.12.2 remote-as 2
+ neighbor 192.168.13.3 remote-as 2
+ !
+ neighbor 192.168.12.2 weight 200
+ neighbor 192.168.13.3 weight 300
+ !
+ exit
+!
+#}
+
+{# for all prefixes #}
+{#
+router bgp 1
+ neighbor 192.168.13.3 weight 500
+ !
+ exit
+!
+#}
+
+{# for few prefixes #}
+route-map WEIGHT permit 10
+ match ip address NET22
+ set weight 400
+!
+ip access-list standard NET22
+ permit 22.22.22.0 0.0.0.255
+!
+router bgp 1
+ no neighbor 192.168.13.3 weight 500
+ neighbor 192.168.13.3 route-map WEIGHT in
+ !
+ exit
+!
+
+{% elif name == 'R2' %}
+{#
+router bgp 2
+ neighbor 192.168.12.1 remote-as 1
+ neighbor 192.168.23.3 remote-as 2
+ network 2.2.2.0 mask 255.255.255.0
+ !
+ exit
+!
+int lo 1
+ ip add 22.22.22.22 255.255.255.0
+ exit
+ !
+!
+#}
+
+{#
+router bgp 2
+ network 22.22.22.0 mask 255.255.255.0
+ !
+ exit
+!
+#}
+{% elif name == 'R3' %}
+{#
+router bgp 2
+ neighbor 192.168.13.1 remote-as 1
+ neighbor 192.168.23.2 remote-as 2
+ network 2.2.2.0 mask 255.255.255.0
+ !
+ exit
+!
+int lo 1
+ ip add 22.22.22.22 255.255.255.0
+ exit
+ !
+!
+#}
+
+{#
+router bgp 2
+ network 22.22.22.0 mask 255.255.255.0
+ !
+ exit
+!
+#}
+{% else %}
+!
+{% endif %}
