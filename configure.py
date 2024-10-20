@@ -70,6 +70,42 @@ def configure_basic_ospf(dev):
     connection.close()
     print('name={}, config={}'.format(dev['name'], pformat(config)))
 
+
+class NetworkLessons():
+    def __init__(self):
+        pass
+
+    def configure_bgp_weight_attribute(self, dev):
+        dev['username'] = USERNAME
+        dev['password'] = PASSWORD
+
+        jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+        jj_template = jj_env.get_template('bgp_weight_attribute.j2')
+        commands = jj_template.render(dev).splitlines()
+        print('name={}, commands={}'.format(dev['name'], pformat(commands)))
+
+        # # Connect
+        # session = TELNET(host=dev['host'], username=dev['username'], password=dev['password'], port=dev['port'])
+        # connection = session.connect()
+        # print(connection, pformat(dev))
+
+        # config = ""
+        # connection.write(b"\n")
+        # time.sleep(2)
+        # connection.write(b"en\n")
+        # connection.write(b"conf t\n")
+        # for cmd in commands:
+        #     cmd += "\n"
+        #     connection.write(cmd.encode('ascii'))
+        #     time.sleep(0.5)
+        #     config += connection.read_until(b"#", timeout=10).decode()
+
+        # connection.write(b"end\n")
+        # connection.write(b"wr mem\n")
+        # connection.close()
+        # print('name={}, config={}'.format(dev['name'], pformat(config)))
+
+
 def main():
     '''Enable SSH'''
     threads = []
@@ -82,18 +118,29 @@ def main():
 
     # CHANGE ENVIROMENT VARIABLE TO CONFIGURE BASIC PROTOCOLS
 
+    '''INE ALL in one'''
     '''Basic EIGRP'''
 
-    '''Basic OSPF'''
-    threads = []
-    for dev in devices_inv:
-        t = Thread(target=configure_basic_ospf, args= (dev,))
-        t.start()
-        threads.append(t)
-    for t in threads:
-        t.join()
+    # '''Basic OSPF'''
+    # threads = []
+    # for dev in devices_inv:
+    #     t = Thread(target=configure_basic_ospf, args= (dev,))
+    #     t.start()
+    #     threads.append(t)
+    # for t in threads:
+    #     t.join()
 
-    '''Basic IS-IS'''
+
+    # '''Network Lessons CCIE Routing & Switching'''
+    # '''Basic BGP'''
+    # threads = []
+    # for dev in devices_inv:
+    #     t = Thread(target=configure_basic_ospf, args= (dev,))
+    #     t.start()
+    #     threads.append(t)
+    # for t in threads:
+    #     t.join()
+
 
 
 if __name__ == '__main__':
