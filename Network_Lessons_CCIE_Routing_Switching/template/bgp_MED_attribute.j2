@@ -5,12 +5,12 @@ router bgp 1
  !
  exit
 !
-route-map AS_PATH permit 10
- set as-path prepend 1 1 1 1 1
+route-map MED permit 10
+ set metric 700
  exit
 !
-router bgp 2
- neighbor 192.168.12.2 route-map AS_PATH out
+router bgp 1
+ neighbor 192.168.12.2 route-map MED out
  exit
 !
 {% elif name == 'R3' %}
@@ -18,6 +18,14 @@ router bgp 1
  neighbor 192.168.23.2 remote-as 2
  network 1.1.1.0 mask 255.255.255.0
  !
+ exit
+!
+route-map MED permit 10
+ set metric 500
+ exit
+!
+router bgp 1
+ neighbor 192.168.23.2 route-map MED out
  exit
 !
 {% elif name == 'R2' %}

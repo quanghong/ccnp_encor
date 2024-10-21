@@ -64,3 +64,23 @@ RPKI validation codes: V valid, I invalid, N Not found
  *    1.1.1.0/24       192.168.12.1             0             0 1 1 1 1 1 1 i
  *>                    192.168.23.3             0             0 1 i
 ```
+
+**Multi Exit Discriminator (MED)**
+* MED <b>influence to all routers in remote AS, not forward to other AS</b>.
+* MED <b>LOWEST</b> is chosen.
+* Setting MED policy on <b>decision router's outbound interface</b>.
+![Topology](as_path_prepending.jpg)
+```bash
+R2#show ip bgp
+BGP table version is 2, local router ID is 192.168.23.2
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter,
+              x best-external, a additional-path, c RIB-compressed,
+              t secondary path,
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *    1.1.1.0/24       192.168.12.1           700             0 1 i
+ *>                    192.168.23.3           500             0 1 i
+```
