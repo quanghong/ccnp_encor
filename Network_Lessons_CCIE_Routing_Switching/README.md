@@ -98,7 +98,8 @@ command because the router doesn't automatically send BGP communities to its nei
 * When we want to advertise all prefixes to BGP neighbors.
 
 **No-Advertise**
-* When we don't want a BGP neighbor advertise any prefix to others.
+* When we <b>don't want a BGP neighbor advertise any prefix to others</b>.
+* Setting No-Advertise policy on <b>decision router's outbound interface</b>.
 
 ![Topology](no_advertise_community.jpg)
 ```bash
@@ -131,5 +132,30 @@ R2#show ip bgp neighbors 192.168.23.3 advertised-routes
 Total number of prefixes 0
 
 R2#show ip bgp neighbors 192.168.24.4 advertised-routes
+Total number of prefixes 0
+```
+
+**No-Export**
+* When we <b>want to advertise prefixes to iBGP neighbors, but don't want to advertise to eBGP neighbors</b>.
+* Setting No-Export policy on <b>decision router's outbound interface</b>.
+```bash
+R2#show ip bgp 1.1.1.1
+BGP routing table entry for 1.1.1.1/32, version 3
+Paths: (1 available, best #1, table default, not advertised to EBGP peer)
+  Advertised to update-groups:
+     14
+  Refresh Epoch 1
+  1
+    192.168.12.1 from 192.168.12.1 (1.1.1.1)
+      Origin IGP, metric 0, localpref 100, valid, external, best
+      Community: no-export
+      rx pathid: 0, tx pathid: 0x0
+
+R2#show ip bgp neighbors 192.168.24.4 advertised-routes
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>   1.1.1.1/32       192.168.12.1             0             0 1 i
+Total number of prefixes 1
+
+R2#show ip bgp neighbors 192.168.23.3 advertised-routes
 Total number of prefixes 0
 ```
