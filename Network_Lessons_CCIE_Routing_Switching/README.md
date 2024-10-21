@@ -6,6 +6,7 @@
 * Weight attribute <b>influence on a router</b>.
 * Weight <b>HIGHEST</b> is chosen.
 * Setting on <b>decision router's inbound interface</b>.
+
 ![Topology](weight.jpg)
 ```bash
 R1#show ip bgp
@@ -29,6 +30,7 @@ R1#
 * Local Preference <b>influence to all routers in an AS</b>.
 * Local Preference <b>HIGHEST</b> is chosen.
 * Setting on <b>decision router's inbound interface</b>.
+
 ![Topology](local_preference.jpg)
 ```bash
 R4#show ip bgp
@@ -49,6 +51,7 @@ RPKI validation codes: V valid, I invalid, N Not found
 * AS Path prepending <b>influence to Next Hop router</b>.
 * AS Path <b>LOWEST</b> is chosen.
 * Setting AS Path prepending policy on <b>decision router's outbound interface</b>.
+
 ![Topology](as_path_prepending.jpg)
 ```bash
 R2#show ip bgp
@@ -69,6 +72,7 @@ RPKI validation codes: V valid, I invalid, N Not found
 * MED <b>influence to all routers in remote AS, not forward to other AS</b>.
 * MED <b>LOWEST</b> is chosen.
 * Setting MED policy on <b>decision router's outbound interface</b>.
+
 ![Topology](as_path_prepending.jpg)
 ```bash
 R2#show ip bgp
@@ -95,6 +99,7 @@ command because the router doesn't automatically send BGP communities to its nei
 
 **No-Advertise**
 * When we don't want a BGP neighbor advertise any prefix to others.
+
 ![Topology](no_advertise_community.jpg)
 ```bash
 R2#show ip bgp
