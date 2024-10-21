@@ -84,3 +84,47 @@ RPKI validation codes: V valid, I invalid, N Not found
  *    1.1.1.0/24       192.168.12.1           700             0 1 i
  *>                    192.168.23.3           500             0 1 i
 ```
+
+
+### BGP Community
+Take a close look at the second command, we have to use the neighbor send-community
+command because the router doesn't automatically send BGP communities to its neighbors
+
+**Internet**
+* When we want to advertise all prefixes to BGP neighbors.
+
+**No-Advertise**
+* When we don't want a BGP neighbor advertise any prefix to others.
+![Topology](no_advertise_community.jpg)
+```bash
+R2#show ip bgp
+ *>   1.1.1.1/32       192.168.12.1             0             0 1 i
+
+R2#show ip bgp 1.1.1.1
+BGP routing table entry for 1.1.1.1/32, version 2
+Paths: (1 available, best #1, table default)
+  Advertised to update-groups:
+     7          8
+  Refresh Epoch 1
+  1
+    192.168.12.1 from 192.168.12.1 (1.1.1.1)
+      Origin IGP, metric 0, localpref 100, valid, external, best
+      rx pathid: 0, tx pathid: 0x0
+
+R2#show ip bgp 1.1.1.1
+BGP routing table entry for 1.1.1.1/32, version 2
+Paths: (1 available, best #1, table default, not advertised to any peer)
+  Not advertised to any peer
+  Refresh Epoch 1
+  1
+    192.168.12.1 from 192.168.12.1 (1.1.1.1)
+      Origin IGP, metric 0, localpref 100, valid, external, best
+      Community: no-advertise
+      rx pathid: 0, tx pathid: 0x0
+
+R2#show ip bgp neighbors 192.168.23.3 advertised-routes
+Total number of prefixes 0
+
+R2#show ip bgp neighbors 192.168.24.4 advertised-routes
+Total number of prefixes 0
+```
