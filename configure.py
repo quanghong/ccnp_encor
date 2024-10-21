@@ -80,7 +80,7 @@ class NetworkLessons():
         dev['password'] = PASSWORD
 
         jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
-        jj_template = jj_env.get_template('ip_address.j2')
+        jj_template = jj_env.get_template('ip_address_no_advertise.j2')
         commands = jj_template.render(dev).splitlines()
         print('name={}, commands={}'.format(dev['name'], pformat(commands)))
 
@@ -139,7 +139,6 @@ class NetworkLessons():
         dev['username'] = USERNAME
         dev['password'] = PASSWORD
 
-
         jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
         jj_template = jj_env.get_template('bgp_local_preference_attribute.j2')
         commands = jj_template.render(dev).splitlines()
@@ -166,8 +165,100 @@ class NetworkLessons():
         connection.close()
         print('name={}, config={}'.format(dev['name'], pformat(config)))
 
+    def configure_bgp_as_path_prepending(self, dev):
+        dev['username'] = USERNAME
+        dev['password'] = PASSWORD
+
+        jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+        jj_template = jj_env.get_template('bgp_as_path_prepending.j2')
+        commands = jj_template.render(dev).splitlines()
+        print('name={}, commands={}'.format(dev['name'], pformat(commands)))
+
+        # Connect
+        session = TELNET(host=dev['host'], username=dev['username'], password=dev['password'], port=dev['port'])
+        connection = session.connect()
+        print(connection, pformat(dev))
+
+        config = ""
+        connection.write(b"\n")
+        time.sleep(2)
+        connection.write(b"en\n")
+        connection.write(b"conf t\n")
+        for cmd in commands:
+            cmd += "\n"
+            connection.write(cmd.encode('ascii'))
+            time.sleep(0.5)
+            config += connection.read_until(b"#", timeout=10).decode()
+
+        connection.write(b"end\n")
+        connection.write(b"wr mem\n")
+        connection.close()
+        print('name={}, config={}'.format(dev['name'], pformat(config)))
+    
+    def configure_bgp_multi_exit_discriminator(self, dev):
+        dev['username'] = USERNAME
+        dev['password'] = PASSWORD
+
+        jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+        jj_template = jj_env.get_template('bgp_MED_attribute.j2')
+        commands = jj_template.render(dev).splitlines()
+        print('name={}, commands={}'.format(dev['name'], pformat(commands)))
+
+        # Connect
+        session = TELNET(host=dev['host'], username=dev['username'], password=dev['password'], port=dev['port'])
+        connection = session.connect()
+        print(connection, pformat(dev))
+
+        config = ""
+        connection.write(b"\n")
+        time.sleep(2)
+        connection.write(b"en\n")
+        connection.write(b"conf t\n")
+        for cmd in commands:
+            cmd += "\n"
+            connection.write(cmd.encode('ascii'))
+            time.sleep(0.5)
+            config += connection.read_until(b"#", timeout=10).decode()
+
+        connection.write(b"end\n")
+        connection.write(b"wr mem\n")
+        connection.close()
+        print('name={}, config={}'.format(dev['name'], pformat(config)))
+
+    def configure_bgp_no_advertise_community(self, dev):
+        dev['username'] = USERNAME
+        dev['password'] = PASSWORD
+
+        jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+        jj_template = jj_env.get_template('bgp_no_advertise_community.j2')
+        commands = jj_template.render(dev).splitlines()
+        print('name={}, commands={}'.format(dev['name'], pformat(commands)))
+
+        # Connect
+        session = TELNET(host=dev['host'], username=dev['username'], password=dev['password'], port=dev['port'])
+        connection = session.connect()
+        print(connection, pformat(dev))
+
+        config = ""
+        connection.write(b"\n")
+        time.sleep(2)
+        connection.write(b"en\n")
+        connection.write(b"conf t\n")
+        for cmd in commands:
+            cmd += "\n"
+            connection.write(cmd.encode('ascii'))
+            time.sleep(0.5)
+            config += connection.read_until(b"#", timeout=10).decode()
+
+        connection.write(b"end\n")
+        connection.write(b"wr mem\n")
+        connection.close()
+        print('name={}, config={}'.format(dev['name'], pformat(config)))
+
+
+
 def main():
-    # '''Enable SSH'''
+    '''Enable SSH'''
     # threads = []
     # for dev in devices_inv:
     #     t = Thread(target=enable_ssh, args= (dev,))
@@ -199,9 +290,11 @@ def main():
         
         # t = Thread(target=classNL.configure_ip_address, args= (dev,))
         # t = Thread(target=classNL.configure_bgp_weight_attribute, args= (dev,))
-        t = Thread(target=classNL.configure_bgp_local_preference_attribute, args= (dev,))
-
-
+        # t = Thread(target=classNL.configure_bgp_local_preference_attribute, args= (dev,))
+        # t = Thread(target=classNL.configure_bgp_as_path_prepending, args= (dev,))
+        # t = Thread(target=classNL.configure_bgp_multi_exit_discriminator, args= (dev,))
+        t = Thread(target=classNL.configure_bgp_no_advertise_community, args= (dev,))
+        
         t.start()
         threads.append(t)
     for t in threads:

@@ -1,0 +1,41 @@
+{% if name == 'R1' %}
+int gi 0/2
+ ip add 192.168.12.1 255.255.255.0
+ no shut
+ exit
+!
+int lo 0
+ ip add 1.1.1.1 255.255.255.0
+ exit
+!
+{% elif name == 'R2' %}
+int gi 0/1
+ ip add 192.168.12.2 255.255.255.0
+ no shut
+ exit
+!
+int gi 0/3
+ ip add 192.168.23.2 255.255.255.0
+ no shut
+ exit
+!
+int gi 0/2
+ ip add 192.168.24.2 255.255.255.0
+ no shut
+ exit
+!
+{% elif name == 'R3' %}
+int gi 0/2
+ ip add 192.168.23.3 255.255.255.0
+ no shut
+ exit
+!
+{% elif name == 'R4' %}
+int gi 0/2
+ ip add 192.168.24.4 255.255.255.0
+ no shut
+ exit
+!
+{% else %}
+!
+{% endif %}
