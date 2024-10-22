@@ -159,3 +159,51 @@ Total number of prefixes 1
 R2#show ip bgp neighbors 192.168.23.3 advertised-routes
 Total number of prefixes 0
 ```
+
+**Local-AS**
+* Local-AS is <b>used in BGP Confederation</b>.
+* When we <b>want to advertise prefixes to an sub-AS, but don't want to advertise to other sub-AS or AS</b>.
+* Setting Local-AS policy on <b>decision router's inbound interface</b>.
+
+![Topology](local_as_community.jpg)
+```bash
+R2#show ip bgp 1.1.1.1
+BGP routing table entry for 1.1.1.1/32, version 2
+Paths: (1 available, best #1, table default, not advertised outside local AS)
+  Advertised to update-groups:
+     9
+  Refresh Epoch 2
+  1
+    192.168.12.1 from 192.168.12.1 (1.1.1.1)
+      Origin IGP, metric 0, localpref 100, valid, external, best
+      Community: local-AS
+      rx pathid: 0, tx pathid: 0x0
+
+R3#show ip bgp 1.1.1.1
+BGP routing table entry for 1.1.1.1/32, version 15
+Paths: (1 available, best #1, table default, not advertised outside local AS)
+  Not advertised to any peer
+  Refresh Epoch 1
+  1
+    192.168.12.1 (metric 2) from 2.2.2.2 (2.2.2.2)
+      Origin IGP, metric 0, localpref 100, valid, confed-internal, best
+      Community: local-AS
+      rx pathid: 0, tx pathid: 0x0
+
+#Before setting Local-AS community.
+R5#  show ip bgp
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>i  1.1.1.1/32       192.168.12.1             0    100      0 (23) 1 i
+ *                     192.168.12.1             0    100      0 (23) 1 i
+ *>   192.168.12.0     2.2.2.2                  0    100      0 (23) i
+
+#After setting Local-AS community.
+R5#  show ip bgp
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>i  192.168.12.0     2.2.2.2                  0    100      0 (23) i
+ *                     2.2.2.2                  0    100      0 (23) i
+
+R6#show ip bgp
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>   192.168.12.0     2.2.2.2                  0    100      0 (23) i
+```

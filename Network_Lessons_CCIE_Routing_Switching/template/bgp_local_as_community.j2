@@ -1,0 +1,118 @@
+{% if name == 'R1' %}
+router bgp 1
+ neighbor 192.168.12.2 remote-as 2345
+ network 1.1.1.1 mask 255.255.255.255
+ no auto-summary
+ !
+ exit
+!
+{% elif name == 'R2' %}
+router ospf 1
+ network 192.168.23.0 0.0.0.255 area 0
+ network 192.168.24.0 0.0.0.255 area 0
+ network 2.2.2.2 0.0.0.0 area 0
+ exit
+!
+router bgp 23
+ bgp confederation identifier 2345
+ bgp confederation peers 45
+ !
+ neighbor 192.168.12.1 remote-as 1
+ !
+ neighbor 3.3.3.3 remote-as 23
+ neighbor 3.3.3.3 update-source loopback 0
+ !
+ {# neighbor 3.3.3.3 next-hop-self #}
+ network 192.168.12.0 mask 255.255.255.0 {# Use advertise network command to know routers do advertise routes but some prefixes are affected by route-map policy #}
+ !
+ neighbor 4.4.4.4 remote-as 45
+ neighbor 4.4.4.4 ebgp-multihop 2
+ neighbor 4.4.4.4 update-source loopback 0
+ !
+ no auto-summary
+ exit
+!
+route-map LOCAL_AS permit 10
+ set community local-AS
+ exit
+!
+router bgp 23
+ neighbor 192.168.12.1 route-map LOCAL_AS in
+ neighbor 3.3.3.3 send-community
+ exit
+!
+{% elif name == 'R4' %}
+router ospf 1
+ network 192.168.45.0 0.0.0.255 area 0
+ network 192.168.24.0 0.0.0.255 area 0
+ network 4.4.4.4 0.0.0.0 area 0
+ exit
+!
+router bgp 45
+ bgp confederation identifier 2345
+ bgp confederation peers 23
+ !
+ neighbor 5.5.5.5 remote-as 45
+ neighbor 5.5.5.5 update-source loopback 0
+ !
+ neighbor 2.2.2.2 remote-as 23
+ neighbor 2.2.2.2 ebgp-multihop 2
+ neighbor 2.2.2.2 update-source loopback 0
+ !
+ no auto-summary
+ exit
+!
+{% elif name == 'R5' %}
+router ospf 1
+ network 192.168.45.0 0.0.0.255 area 0
+ network 192.168.35.0 0.0.0.255 area 0
+ network 5.5.5.5 0.0.0.0 area 0
+ exit
+!
+router bgp 45
+ bgp confederation identifier 2345
+ bgp confederation peers 23
+ !
+ neighbor 4.4.4.4 remote-as 45
+ neighbor 4.4.4.4 update-source loopback 0
+ !
+ neighbor 3.3.3.3 remote-as 23
+ neighbor 3.3.3.3 ebgp-multihop 2
+ neighbor 3.3.3.3 update-source loopback 0
+ !
+ no auto-summary
+ exit
+!
+{% elif name == 'R3' %}
+router ospf 1
+ network 192.168.23.0 0.0.0.255 area 0
+ network 192.168.35.0 0.0.0.255 area 0
+ network 3.3.3.3 0.0.0.0 area 0
+ exit
+!
+router bgp 23
+ bgp confederation identifier 2345
+ bgp confederation peers 45
+ !
+ neighbor 2.2.2.2 remote-as 23
+ neighbor 2.2.2.2 update-source loopback 0
+ !
+ neighbor 5.5.5.5 remote-as 45
+ neighbor 5.5.5.5 ebgp-multihop 2
+ neighbor 5.5.5.5 update-source loopback 0
+ !
+ neighbor 192.168.36.6 remote-as 6
+ !
+ no auto-summary
+ exit
+!
+{% elif name == 'R6' %}
+router bgp 6
+ neighbor 192.168.36.3 remote-as 2345
+ no auto-summary
+ !
+ exit
+!
+{% else %}
+!
+{% endif %}

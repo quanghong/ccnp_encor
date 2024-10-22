@@ -80,7 +80,7 @@ class NetworkLessons():
         dev['password'] = PASSWORD
 
         jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
-        jj_template = jj_env.get_template('ip_address_no_advertise.j2')
+        jj_template = jj_env.get_template('ip_address_local_as_community.j2')
         commands = jj_template.render(dev).splitlines()
         print('name={}, commands={}'.format(dev['name'], pformat(commands)))
 
@@ -285,6 +285,35 @@ class NetworkLessons():
         connection.close()
         print('name={}, config={}'.format(dev['name'], pformat(config)))
 
+    def configure_bgp_local_as_community(self, dev):
+        dev['username'] = USERNAME
+        dev['password'] = PASSWORD
+
+        jj_env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+        jj_template = jj_env.get_template('bgp_local_as_community.j2')
+        commands = jj_template.render(dev).splitlines()
+        print('name={}, commands={}'.format(dev['name'], pformat(commands)))
+
+        # Connect
+        session = TELNET(host=dev['host'], username=dev['username'], password=dev['password'], port=dev['port'])
+        connection = session.connect()
+        print(connection, pformat(dev))
+
+        config = ""
+        connection.write(b"\n")
+        time.sleep(2)
+        connection.write(b"en\n")
+        connection.write(b"conf t\n")
+        for cmd in commands:
+            cmd += "\n"
+            connection.write(cmd.encode('ascii'))
+            time.sleep(0.5)
+            config += connection.read_until(b"#", timeout=10).decode()
+
+        connection.write(b"end\n")
+        connection.write(b"wr mem\n")
+        connection.close()
+        print('name={}, config={}'.format(dev['name'], pformat(config)))
 
 def main():
     '''Enable SSH'''
@@ -328,7 +357,8 @@ def main():
 
         '''Communities'''
         # t = Thread(target=classNL.configure_bgp_no_advertise_community, args= (dev,))
-        t = Thread(target=classNL.configure_bgp_no_export_community, args= (dev,))
+        # t = Thread(target=classNL.configure_bgp_no_export_community, args= (dev,))
+        t = Thread(target=classNL.configure_bgp_local_as_community, args= (dev,))
         
 
         t.start()
