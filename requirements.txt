@@ -3,3 +3,4 @@ python-dotenv
 ansible
 ansible-pylibssh
 netmiko
+pyshark
