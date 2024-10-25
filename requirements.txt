@@ -4,3 +4,5 @@ ansible
 ansible-pylibssh
 netmiko
 pyshark
+genie
+pyats
